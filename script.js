@@ -100,25 +100,57 @@ class Library {
   
   printList(list){
     this.lists.forEach((list) => {
-      const listContainer = createDOMElement("div", "list");
+      const listContainer = createDOMElement("div", "listContainer");
       const listHeader = createDOMElement("div", "listHeader");
-      const listTitle = createDOMElement("div", "listTitle", list.listTitle);
-      const listDelete = createDOMElement("div", "listDelete", "X");
-
+      const listTitle = createDOMElement("div", "listTitle", list.title);
+      const listDelete = createDOMElement("i", "listDelete");
+      listDelete.classList.add("bi");
+      listDelete.classList.add("bi-x-circle");      
+      
       listHeader.appendChild(listTitle);
       listHeader.appendChild(listDelete);
 
       listContainer.appendChild(listHeader);
+      
       list.printTasks(listContainer);
+      
+      this.deleteList(list, listDelete, listHeader, listContainer);
+      
       main.appendChild(listContainer);
-      console.log(list);
-    });  
+      /*console.log(list);*/
+    });
+    
+    if(library.lists.length > 1) {
+      main.classList.remove('single-list');
+      main.classList.add('multiple-lists');
+    } else if (library.lists.length === 1) {
+      main.classList.remove('multiple-lists');
+      main.classList.add('single-list');
+    }
+  }
+  
+  deleteList(list, listDelete, listHeader, listContainer) {
+    const index = this.lists.indexOf(list);
+    listDelete.addEventListener("click", () => {
+      const index = this.lists.indexOf(list);
+      const position = this.lists[index];
+      /*console.log(position.title);*/
+      this.lists.splice(index, 1);
+      
+      listContainer.removeChild(listHeader);
+      this.lists.slice(index, 1);
+      
+      list.deleteAllTasks(listContainer);
+      main.removeChild(listContainer);
+      console.log(library.lists);
+    });
+    
   }
 }
 
 class List {
-  constructor(listTitle) {
-    this.listTitle = listTitle;
+  constructor(title) {
+    this.title = title;
     this.tasks = [];
     this.completed = [];
   }
@@ -142,10 +174,11 @@ class List {
     });
   }
 
-  deleteAllTasks() {
-    this.tasks.forEach((task) => {
-      console.log(task.title);
-    });
+  deleteAllTasks(listContainer) {
+    while(listContainer.firstChild) {
+      listContainer.firstChild.remove();
+      this.tasks.pop();
+    }
   }
 
   firstBooks() {
@@ -157,8 +190,6 @@ class List {
   displayTask(listContainer, task) {
     const index = this.tasks.indexOf(task);
     
-    const container = createDOMElement("div", "container");
-
     const taskContainer = createDOMElement("div", "taskContainer");
 
     const topRow = createDOMElement("div", "topRow");
@@ -284,27 +315,11 @@ class List {
       title.textContent = newTitle;
       notes.textContent = newNotes;
       titleDefValue = newTitle;
-      
-      
-      /*toggleModal();*/
-    });
-/*
-    function GetDefValue (task) {
-      const tkTitle = task.title;
-         const defValue = tkTitle.defaultValue;
-         const currvalue = tkTitle.value;
-         if (defValue == currvalue) {
-             alert ("The contents of the input field have not changed!");
-         } else {
-             alert ("The default contents were " + defValue + 
-                    "\n  and the new contents are " + currvalue);
-         }
-     }
- */   
+    }); 
     
     const lowerBar = createDOMElement("div", "lowerBar");
 
-    const modalPriority = createDOMElement("div","modalPriority",task.priority);
+    const modalPriority = createDOMElement("div", "modalPriority", task.priority);
     this.addPriority(task, modalPriority);
 
     const modalLabels = createDOMElement("ul");
@@ -339,10 +354,11 @@ class List {
       }
     }
 
-    closeBtn.addEventListener("click", toggleModal);
-    
     // check if task details have changed
     closeBtn.addEventListener("click", () => {
+      // close modal
+      toggleModal();
+      
       // if text has not been saved, revert to default value
       if(modalTitle.textContent != titleDefValue) {
         modalTitle.textContent = titleDefValue;
@@ -361,10 +377,8 @@ class List {
     taskContainer.appendChild(taskDiv);
     taskContainer.appendChild(preview);
     taskContainer.appendChild(modal);
-
-    container.appendChild(taskContainer);
     
-    listContainer.appendChild(container);
+    listContainer.appendChild(taskContainer);
     
     deleteIcon.addEventListener("click", () => {
       const index = this.tasks.indexOf(task);
@@ -372,8 +386,16 @@ class List {
       /*console.log(position.title);*/
       this.tasks.splice(index, 1);
       
-      listContainer.removeChild(container);
-      /*console.log(this.tasks);*/
+      listContainer.removeChild(taskContainer);
+      
+      if(this.tasks.length === 0) {
+        this.deleteAllTasks(listContainer);
+        console.log("yes it does");
+      }
+     
+      
+      console.log(this.tasks.length);
+      
     });
   }
 
@@ -498,5 +520,15 @@ secondList.addTask(task4);
 /*secondList.printTasks();*/
 
 library.addList(secondList);
+
+const thirdList = new List("Personal Tasks");
+
+const task5 = new Task("This is really cool", "hehe some notes here", "Dec 1", "low", [
+  "Work", "Other"]);
+
+thirdList.addTask(task5);
+library.addList(thirdList);
 library.printList();
+
+
 /*console.log(library.lists);*/

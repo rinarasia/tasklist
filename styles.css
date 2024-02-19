@@ -1,7 +1,7 @@
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css");
 
 :root {
-  --width: 80%;
+  --width: 90vw;
 
   --lblMargin: 20px;
   --taskMargin: calc(var(--lblMargin) - 7px);
@@ -33,78 +33,217 @@
   padding: 0;
 }
 
-.titleRow .titleDiv {
+.container {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: 1fr 1fr 10fr 1fr;
+  gap: 4px;
+  height: 100vh;
+}
+/*
+.container div {
+  padding: 15px;
+  font-size: 32px;
+  font-family: Helvetica;
+  font-weight: bold;
+}
+*/
+.header {
+  padding: 15px;
+  text-align: center;
+  background-color: var(--primary);
+  grid-column: 1 / 6;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+}
+
+.logo {
+  justify-self: start;
+}
+
+.menu {
+  justify-self: space-between;
+  align-self: center;
+}
+
+.menu ul {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  list-style: none;
+  gap: 10px;
+}
+
+.menu ul,
+.menu li {
+  font-size: 16px;
+}
+
+.sidebar {
+  padding: 15px;
+  text-align: center;
+  background-color: #C50208;
+  grid-row: 2 / 4;
+  display: grid;
+  gap: 50px;
+}
+
+.sidebar .photo {
+  background-color: white;
+  color: black;
+  font-size: 12px;
+  font-weight: normal;
+  border-radius: 10px;
+}
+
+.photo, .side-content {
+  display: grid;
+  align-items: center;
+}
+
+
+.sidebar .side-content {
+  background-color: white;
+  color: black;
+  font-size: 16px;
+  font-weight: normal;
+}
+
+.nav {
+  padding: 15px;
+  text-align: center;
+  background-color: #C50208;
+  grid-column: 2 / 6;
+  grid-row: 2 / 3;
+}
+
+.nav ul {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.nav ul li {
+  font-size: 16px;
+  text-transform: uppercase;
+  list-style: none;
+}
+
+.article {
+  background-color: #bccbde;
+  grid-column: 2 /6;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 15px;
+}
+
+.article p {
+  font-size: 18px;
+  font-family: sans-serif;
+  color: white;
+  text-align: left;
+}
+
+.article .card {
+  background-color: #FFFFFF;
+  color: black;
+  text-align: center;
+  height: 200px;
+}
+
+.card p {
+  color: black;
+  font-weight: normal;
+  font-size: 14px;
+}
+
+.card .title {
+  font-size: 18px;
+  text-align: center;
+}
+
+.footer {
+  padding: 15px;
+  background-color: var(--primary);
+  grid-column: 1 / 6;
+}
+
+.footer p {
+  font-size: 13px;
+  font-weight: normal;
+}
+
+/* TASK LIST AND TASK CONTAINER */
+
+.main {
+  grid-column: 2 / 6;
+  grid-row: 3 / 4;
+  
+  margin-right: 15px;
+  padding: 10px;
+  gap: 10px;
+  
+  border: 1px solid lightgray;
+  border-radius: 4px;
+  overflow: auto;
+  display: flex;
+  justify-content: space-between;
+}
+
+.multiple-lists .listContainer {
+  min-width: 450px;
+}
+
+.multiple-lists .right {
+  grid-template-columns: 60px 1fr 1fr 1fr;
+}
+
+.listContainer {
   width: 100%;
-}
-
-.titleRow .title {
-  max-width: 90%;
-
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.list {
+  
   display: flex;
   flex-direction: column;
   gap: 5px;
-  border: 1px solid red;
+  padding-left: 10px;
+  align-self: start;
+  border-radius: 5px;
+  box-shadow: 1px 3px 5px lightgray;
 }
 
 .listHeader {
   display: flex;
   justify-content: space-between;
-  width: var(--width);
-  margin: auto;
-  
+  padding: 0px 5px;
 }
 
 .listTitle {
   text-align: center;
 }
 
-.container {
-  /*box-shadow: 1px 1px 5px gray;*/
-  min-width: var(--width);
-  width: 600px;
-  border-radius: 3px;
-  margin: auto;
-
-  border-top: 1px solid rgb(237, 235, 233);
-  border-radius: 4px 0px 4px 4px;
-  border-right-color: rgb(237, 235, 233);
-  border-bottom-color: rgb(237, 235, 233);
-  border-left-color: rgb(237, 235, 233);
+.listDelete {
+  align-self: center;
+  cursor: pointer;
+  border-radius: 1rem;
+  font-size: 14px;
 }
 
-/*
-.taskDelete {
-  display: flex;
-  flex-flow: row;
-  flex: 0 0 auto;
-  min-height: 0px;
-  min-width: 0px;
-  color: rgb(96, 94, 92);
-  font-size: 12px;
-  right: 2px;
-  top: 2px;
-  line-height: 20px;
-  letter-spacing: 0.75px;
-
-  border: 1px solid black;
-  border-radius: 30px;
-  padding: 0px 6px;
-  position: absolute;
+.listDelete:hover {
+  background-color: lightgray;
+  transform: scale(1.1);
 }
-*/
+
 .taskContainer {
   display: flex;
   flex-flow: column;
-
+  
+  padding-right: 5px;
+  
   cursor: pointer;
-  position: relative;
+  border-radius: 4px 0px 4px 4px;
+  border-top: 1px solid rgb(237, 235, 233);
   border-radius: 3px 3px 0px 0px;
+}
+
+.taskContainer:last-child {
+  margin-bottom: 8px;
 }
 
 .labels {
@@ -189,8 +328,7 @@ li.lbl5 {
 
 .left {
   flex: 1 1 auto;
-  min-height: 0px;
-  min-width: 0px;
+  
 
   display: flex;
   flex-flow: column;
@@ -201,6 +339,18 @@ li.lbl5 {
 .titleRow {
   display: flex;
   align-items: center;
+}
+
+.titleRow .titleDiv {
+  width: 100%;
+}
+
+.titleRow .title {
+  width: 90%;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 input[type="checkbox"] {
@@ -219,20 +369,6 @@ input[type="checkbox"]:hover {
 
 input[type="checkbox"]:checked {
   accent-color: gray;
-}
-
-.indicatorRow {
-  display: flex;
-  flex-flow: row;
-  flex: 0 0 auto;
-  min-height: 0px;
-  min-width: 0px;
-  color: rgb(96, 94, 92);
-  font-size: 12px;
-  line-height: 20px;
-  margin-top: 8px;
-  margin-bottom: -4px;
-  letter-spacing: 0.75px;
 }
 
 .right {
@@ -260,6 +396,7 @@ input[type="checkbox"]:checked {
 
 .right *:hover {
   background: #e2e1df;
+  transform: scale(1.1);
   border-radius: 3px;
 }
 
@@ -267,24 +404,11 @@ input[type="checkbox"]:checked {
   font-size: 16px;
 }
 
-.profile {
-  display: flex;
-  flex-flow: column;
-  cursor: pointer;
-  flex: 1 1 0px;
-  min-height: 0px;
-  min-width: 0px;
-  width: 100%;
-}
 
-.main {
-  padding: 10px;
-  margin: auto;
-  width: 90%;
-}
-
-.hidden {
-  display: none;
+.preview {
+  margin-left: var(--notesMargin);
+  margin-right: var(--prevMarginRight);
+  max-width: 70%;
 }
 
 .notes {
@@ -292,10 +416,8 @@ input[type="checkbox"]:checked {
   font-size: 12px;
 }
 
-.preview {
-  margin-left: var(--notesMargin);
-  margin-right: var(--prevMarginRight);
-  max-width: 70%;
+.hidden {
+  display: none;
 }
 
 /* MODAL TESTINGGGGGGGGGGGGGGG*/
@@ -417,12 +539,13 @@ button {
 .closeBtn {
   justify-self: end;
   cursor: pointer;
+  border-radius: 1rem;
   font-size: 14px;
   grid-column: 1 / span 2;
 }
 
 .closeBtn:hover {
-  background-color: darkgray;
+  background-color: lightgray;
 }
 
 .show-modal {
