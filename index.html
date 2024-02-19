@@ -8,74 +8,92 @@
 </head>
 <body>
     <div class="container">
-        <nav>
-          <div id="logo" class="logo" onclick="toggleSidebar()">Logo</div>
-        </nav>
-        <div id="sidebar" class="sidebar">
-          <icon >iCON</icon>
-          <h4 class="heading">All</h4>
-          <h4 class="heading">Personal</h4>
-          <h4 class="heading">School</h4>
-          <h4 class="heading">Work</h4>
-        </div>
+        <header role="banner">
+          <div class="headerInnerContainer">
+            <div class="menuContainer" id="menuIcon" onclick="toggleSidebar()">
+              <div class="bar1"></div>
+              <div class="bar2"></div>
+              <div class="bar3"></div>
+            </div>
+            <div class="logo">To-Do List</div>
+            <h2>Profile</h2>
+          </div>
+        </header>
       
         <div class="main">
-          <h2 class="heading">Heading</h2>
-          <div class="taskContainer">
-            <div class="taskCard">
-              <span class="checkBox">O</span>
-              <button class="taskDetails">
-                <span class="taskTitle">Create Online Notary Course</span>
-                <span class="days">1 day</span>
-                <span class="metaData">
-                  <span class="category">Personal</span>
-                  <span class="divider">•</span>
-                  <span class="dueDate">Due Mon, December 12</span>
-                </span>
-                <span class="priority low">Low</span>
-              </button>
-            </div>
-            
-            <div class="taskCard">
-              <span class="checkBox">O</span>
-              <button class="taskDetails">
-                <span class="taskTitle">Prepare for Driver's Permit Test</span>
-                <span class="days">6 days</span>
-                <span class="metaData">
-                  <span class="category">School</span>
-                  <span class="divider">•</span>
-                  <span class="dueDate">Due Tues, December 13</span>
-                  <span class="divider">•</span>
-                  <span class="notes">🗈</span>
-                </span>
-                <span class="priority medium">Medium</span>
-              </button>
-            </div>
-            
-            <div class="taskCard">
-              <span class="checkBox">O</span>
-              <button class="taskDetails">
-                <span class="taskTitle">Pick Up Name Change Paperwork</span>
-                <span class="days">10 days</span>
-                <span class="metaData">
-                  <span class="category">Work</span>
-                  <span class="divider">•</span>
-                  <span class="dueDate">Due Fri, December 15</span>
-                </span>
-                <span class="priority high">High</span>
-              </button>
+          <div class="sidebar" id="sidebar">
+            <div class="menuItem"><img src="https://cdn.iconscout.com/icon/free/png-256/free-house-1121-460449.png" alt="home"><span class="menuItem">Home</span></div>
+            <div class="menuItem"><img src="https://cdn.iconscout.com/icon/free/png-256/free-house-1121-460449.png" alt="home"><span class="menuItem">Testing</span></div>
+          </div>
+      
+          <div class="content">
+            <div class="table-header tabgroup">
+              <table>
+                <thead>
+                  <tr>
+                    <th class="tab" data-tab="all">All</th>
+                    <th class="tab" data-tab="today">Today</th>
+                    <th class="tab" data-tab="tomorrow">Tomorrow</th>
+                    <th class="tab" data-tab="thisWeek">This Week</th>
+                  </tr>
+                </thead>
+              </table>
+      
+              <div class="taskContainer">
+                <div class="taskCard">
+                  <button class="taskDetails">
+                    <div class="tdcheck"></div>
+                    <div class="taskInner">
+                      <div class="taskTitle">Create Online Notary Course</div>
+                      <span class="days b">1 day</span>
+                      <span class="metaData b">
+                        <span class="category">Personal</span>
+                        <span class="divider">•</span>
+                        <span class="dueDate">Due Mon, December 12</span>
+                      </span>
+                      <span class="priority low b">Low</span>
+                    </div>
+                  </button>
+                </div>
+      
+                <div class="taskCard">
+                  <button class="taskDetails">
+                    <span class="tdcheck"></span>
+                    <span class="taskInner">
+                      <span class="taskTitle b">Create Online Notary Course</span>
+                      <span class="days b">1 day</span>
+                      <span class="metaData b">
+                        <span class="category">Personal</span>
+                        <span class="divider">•</span>
+                        <span class="dueDate">Due Mon, December 12</span>
+                      </span>
+                      <span class="priority high">High</span>
+                    </span>
+                  </button>
+                </div>
+      
+                <div class="taskCard">
+                  <button class="taskDetails">
+                    <span class="tdcheck"></span>
+                    <span class="taskInner">
+                      <span class="taskTitle b">Create Online Notary Course</span>
+                      <span class="days b">1 day</span>
+                      <span class="metaData b">
+                        <span class="category">Personal</span>
+                        <span class="divider">•</span>
+                        <span class="dueDate">Due Mon, December 12</span>
+                      </span>
+                      <span class="priority medium">Medium</span>
+                    </span>
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
       
-        <div class="info">
-          <div class="heading">Today's Date</div>
-          <div class="heading">Number of Tasks</div>
+          <div class="info">Info</div>
         </div>
-      
-        <div class="footer">
-          <p>Copyright © The Odin Project 2021</p>
-        </div>
+        <div class="footer">Footer</div>
       </div>
 </body>
 </html>
