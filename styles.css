@@ -3,6 +3,9 @@
 :root {
   --title: #212630;
   --primary: #f6f8fc;
+  --darkBlue: #637f92;
+  --orange: #f6c78e;
+  --shadow: #deeaf7;
   --width: 100%;
 
   --lblMargin: 20px;
@@ -44,10 +47,8 @@
 }
 
 .container > .header {
-  /*border: 2px solid blue;*/
   background: var(--primary);
   z-index: 1;
-  /*box-shadow: 1px 2px 5px lightgray;*/
   grid-row: 1 / span 1;
   padding: 2px 10px;
 
@@ -90,13 +91,8 @@
   box-sizing: border-box;
   width: 240px;
   min-width: 240px;
-  /*width: 30%;
-  min-width: 250px;
-  max-width: 250px;*/
   padding-left: 10px;
-
   margin-bottom: 10px;
-  /*box-shadow: 3px 3px 5px lightgray;*/
 }
 
 .sidebar h3 {
@@ -110,9 +106,12 @@
 
 #leftSidebar {
   z-index: 0;
-  /*box-shadow: 3px 2px 5px lightgray;*/
-  padding: 20px 20px 0px 20px;
+  padding: 12px 20px 0px 20px;
   height: 100%;
+}
+
+#sidebarLabels {
+  margin-top: 3px;
 }
 
 #leftSidebar .sidebarLbl {
@@ -123,33 +122,19 @@
   text-overflow: ellipsis;
 }
 
-.sidebarLbl:hover {
-  background: #f6c78e;
-}
-
-.sidebarLbl.active {
-  color: white;
-  background: #637f92;
+.sidebarLbl:hover, .sidebarLbl.active {
+  background: var(--orange);
 }
 
 #rightSidebar {
   background: #e9edf6;
-  border: 3px solid #637f92;
+  border: 3px solid var(--darkBlue);
   border-radius: 10px;
   padding-top: 10px;
   padding-right: 10px;
-  margin: 10px;
+  margin: 0px 10px 10px 10px;
 }
 
-.footer {
-  grid-row: 3 / span 1;
-  text-align: center;
-  padding: 15px;
-  z-index: 1;
-
-  background: #f7f7f7;
-  /*border: 2px solid orange;*/
-}
 
 /* END BOILERPLATE CSS */
 .testMain {
@@ -206,12 +191,12 @@
 }
 
 .list.active {
-  box-shadow: 1px 3px 5px #deeaf7;
-  /*background: #FCFDFF;*/
+  box-shadow: 1px 3px 5px var(--shadow);
 }
 
 .list-header {
   padding: 10px;
+  cursor: pointer;
 }
 
 .list.active .list-header {
@@ -238,27 +223,26 @@
   align-self: center;
   cursor: pointer;
   border-radius: 2rem;
-  font-size: 14px;
+  font-size: 16px;
+  padding: 5px;
 }
 
 .list .delete:hover {
-  background-color: lightgray;
+  background-color: #ECEEF4;
   transform: scale(1.1);
 }
 
 .taskContainer {
   display: flex;
   flex-flow: column;
-  padding: 0px 10px;
-  cursor: pointer;
-  padding-bottom: 5px;
-  border-radius: 4px 0px 4px 4px;
+  padding: 0px 10px 5px 10px;
+  cursor: pointer;  
   border-top: 1px solid #edebe9;
   border-radius: 3px 3px 0px 0px;
 }
 
 .taskContainer:hover {
-  box-shadow: 1px 2px 5px lightgray;
+  box-shadow: 1px 3px 5px var(--shadow);
 }
 
 .labels {
@@ -369,15 +353,15 @@
 }
 
 .task input[type="checkbox"] {
-  width: 12px;
-  height: 12px;
+  width: 14px;
+  height: 14px;
   border: 2px solid gray;
   border-radius: 3px;
   margin: 0px 12px 0px 5px;
 }
 
 .task input[type="checkbox"]:hover {
-  box-shadow: 0 0 0 20px #f5f5f5;
+  box-shadow: 0 0 0 20px #ECEEF4;
   clip-path: circle(100%);
   cursor: pointer;
 }
@@ -404,7 +388,7 @@
 
 .task .right i {
   justify-self: center;
-  padding-left: 3px;
+  padding: 3px;
 }
 
 .task .right *:hover {
@@ -653,16 +637,15 @@ button {
 
   box-sizing: border-box;
   position: relative;
-  z-index: 2;
   flex: 0 0 200px;
 }
 
 #tabs .tab.active {
-  border-bottom: 5px solid #637f92;
+  border-bottom: 5px solid var(--darkBlue);
 }
 
 #tabs .tab:not(.active):hover {
-  border-bottom: 5px solid #f6c78e;
+  border-bottom: 5px solid var(--orange);
 }
 
 /* END TABLE HEADERS */
@@ -680,4 +663,23 @@ button {
   border: 1px solid #ddd;
   border-radius: 8px;
   margin: auto;
+}
+
+.card {
+  margin-top: 5px;
+  display: flex;
+  flex-flow: column;
+  padding: 0px 10px;
+  text-align: center;
+  border-radius: 10px;
+  background: var(--primary);
+}
+
+#time {
+ font-size: 24px;
+  padding-top: 10px;
+}
+
+#date {
+  padding: 10px;
 }

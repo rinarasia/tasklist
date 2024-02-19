@@ -51,6 +51,7 @@ class Task {
       taskDiv.classList.toggle("complete");
       
       const listContainer = taskContainer.closest(".listContainer");
+      const listIncompleteContainer = listContainer.querySelector(".list.active");
       const listCompleteSection = listContainer.querySelector(".list.inactive");
       const listCompleteContainer = listContainer.querySelector(".tasksInactiveContainer");
       if (checkbox.checked === true) {
@@ -115,11 +116,34 @@ class Task {
 
     taskDiv.appendChild(left);
     taskDiv.appendChild(right);
+    
+    titleDiv.addEventListener("click", () => {
+      viewIcon.classList.toggle("bi-eye");
+      viewIcon.classList.toggle("bi-eye-fill");
+      preview.classList.toggle("hidden");
+      notes.classList.toggle("hidden");
+    });
+
+    viewIcon.addEventListener("click", () => {
+      viewIcon.classList.toggle("bi-eye");
+      viewIcon.classList.toggle("bi-eye-fill");
+      preview.classList.toggle("hidden");
+      notes.classList.toggle("hidden");
+    });
+    
+    /* MODAL */
+    const modal = createDOMElement("div", "modal");
+    
+    
+    editIcon.addEventListener("click", () =>{
+      modal.classList.toggle("show-modal");
+    });
 
     taskContainer.appendChild(labels);
     taskContainer.appendChild(taskDiv);
     taskContainer.appendChild(preview);
-    
+    taskContainer.appendChild(modal);
+    this.modal(task, list, modal);
     listcontainer.appendChild(taskContainer);
     
     if(listcontainer.classList.contains("tasksInactiveContainer")){
@@ -127,6 +151,31 @@ class Task {
       taskDiv.classList.toggle("complete");
       checkbox.checked = true;
     }
+    
+    deleteIcon.addEventListener("click", () => {
+      const listContainer = taskContainer.closest(".listContainer");
+      const listIncompleteContainer = listContainer.querySelector(".list.active");
+      const listCompleteSection = listContainer.querySelector(".list.inactive");
+      const listCompleteContainer = listContainer.querySelector(".tasksInactiveContainer");
+      
+      const taskIndex = list.tasksIncomplete.indexOf(task);
+      if (listIncompleteContainer.contains(taskContainer)) {
+        list.tasksIncomplete.splice(taskIndex, 1);
+
+        listIncompleteContainer.removeChild(taskContainer);
+        console.log(this);
+      } else if (listCompleteContainer.contains(taskContainer)) {
+        list.tasksComplete.splice(taskIndex, 1);
+
+        listCompleteContainer.removeChild(taskContainer);
+      }
+
+      if (list.tasksIncomplete.length === 0 && list.tasksComplete.length === 0) {
+        alert("Are you sure?");
+        list.deleteList(list, listContainer);
+        //list.deleteAllTasks(listContainer, tasksInactiveContainer);
+      }
+    });
     
   }
   
@@ -174,6 +223,102 @@ class Task {
         break;
     }
   }
+  
+  modal(task, list, modal) {
+    const modalContent = createDOMElement("div", "content");
+
+    const closeBtn = createDOMElement("i", "closeBtn");
+    closeBtn.classList.add("bi");
+    closeBtn.classList.add("bi-x-circle");
+
+    const modalTitleLbl = createDOMElement("label", "", "Task:");
+    modalTitleLbl.setAttribute("for", "title");
+
+    const modalTitle = createDOMElement("span", "title");
+    modalTitle.setAttribute("contenteditable", "true");
+    modalTitle.textContent = task.title;
+
+    let titleDefValue = task.title;
+
+    const modalNotesLbl = createDOMElement("label", "", "Notes:");
+    modalNotesLbl.setAttribute("for", "notes");
+
+    const modalNotes = createDOMElement("span", "notes");
+    modalNotes.setAttribute("contenteditable", "true");
+    modalNotes.textContent = task.notes;
+
+    let notesDefValue = task.notes;
+
+    const saveBtn = createDOMElement("button", "saveBtn", "Save");
+
+    saveBtn.addEventListener("click", () => {
+      const index = list.tasksIncomplete.indexOf(task);
+      task.title = modalTitle.textContent;
+      task.notes = modalNotes.textContent;
+      
+      list.updateTask(task);
+      
+    });
+
+    const lowerBar = createDOMElement("div", "lowerBar");
+
+    const modalPriority = createDOMElement("div", "priority", task.priority);
+    this.addPriority(task, modalPriority);
+
+    const modalLabels = createDOMElement("ul");
+    task.labels.forEach((lbl) => {
+      const li = document.createElement("li");
+      li.textContent = lbl;
+      //      lbl = lbl.toLowerCase();
+      this.colorLabels(li, lbl);
+      modalLabels.appendChild(li);
+    });
+
+    const modalDueDate = createDOMElement("div", "dueDate", task.dueDate);
+
+    modalContent.appendChild(closeBtn);
+    modalContent.appendChild(modalTitleLbl);
+    modalContent.appendChild(modalTitle);
+    modalContent.appendChild(modalNotesLbl);
+    modalContent.appendChild(modalNotes);
+
+    lowerBar.appendChild(modalPriority);
+    lowerBar.appendChild(modalLabels);
+    lowerBar.appendChild(modalDueDate);
+
+    modalContent.appendChild(lowerBar);
+    modalContent.appendChild(saveBtn);
+
+    modal.appendChild(modalContent);
+
+    function windowOnClick(event) {
+      if (event.target === modal) {
+        modal.classList.toggle("show-modal");
+      }
+    }
+
+    // check if task details have changed
+    closeBtn.addEventListener("click", () => {
+      // close modal
+      modal.classList.toggle("show-modal");
+
+      // if text has not been saved, revert to default value
+      if (modalTitle.textContent != titleDefValue) {
+        modalTitle.textContent = titleDefValue;
+      }
+
+      if (modalNotes.textContent != notesDefValue) {
+        modalTitle.textContent = titleDefValue;
+      }
+    });
+
+    window.addEventListener("click", windowOnClick);
+  }
+  
+  toggleModal() {
+    //console.log("this");
+      modal.classList.toggle("show-modal");
+    }
 }
 
 /*----------------------- LIBRARY CLASS --------------------*/
@@ -283,6 +428,17 @@ class List {
     this.tasksComplete.splice(index, 1);
   }
   
+  updateTask(task) {
+    let newTitle = task.title;
+console.log(newTitle);
+      //let newNotes = list.tasksIncomplete[index].notes;
+      //newNotes = task.notes;
+
+      //title.textContent = newTitle;
+      //notes.textContent = newNotes;
+      //titleDefValue = newTitle;
+  }
+  
   printSingleList(list, label) {
     const listContainer = createDOMElement("div", "listContainer");
 
@@ -294,7 +450,9 @@ class List {
     const listDeleteBtn = createDOMElement("i", "delete");
     listDeleteBtn.classList.add("bi");
     listDeleteBtn.classList.add("bi-x-circle");
-    this.deleteListFunction(list, listContainer, listDeleteBtn)
+    listDeleteBtn.addEventListener("click", () => {
+      this.deleteList(list, listContainer);
+    });
     
     listIncompleteHeader.appendChild(listIncompleteTitle);
     listIncompleteHeader.appendChild(listDeleteBtn);
@@ -347,9 +505,7 @@ class List {
     main.appendChild(listContainer);
   }
   
-  deleteListFunction(list, listContainer, listDeleteBtn) {
-    listDeleteBtn.addEventListener("click", (e) => {
-      // remove list from library
+  deleteList(list, listContainer){
       const index = library.lists.indexOf(list);
       library.lists.splice(index, 1);
 
@@ -361,7 +517,6 @@ class List {
       
       // remove list from main
       main.removeChild(listContainer);
-    });
   }
   
 }
@@ -453,3 +608,24 @@ function searchTasks() {
     }
   }
 }
+
+const time = document.getElementById("time");
+const dateInfo = document.getElementById("date");
+const date = new Date();
+let day = date.getDate();
+let month = date.toLocaleString('default', { month: 'long' });
+let year = date.getFullYear();
+
+// This arrangement can be altered based on how we want the date's format to appear.
+let currentDate = `${month} ${day}, ${year}`;
+
+displayClock();
+function displayClock(){
+  var display = new Date().toLocaleTimeString('default', {hour: '2-digit', minute:'2-digit'});
+  time.innerHTML = display;
+  dateInfo.innerHTML = currentDate;
+  setTimeout(displayClock, 1000); 
+}
+
+//dateInfo.textContent = currentDate;
+//console.log(dateInfo.textContent); // "17-6-2022"
