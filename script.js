@@ -1,3 +1,26 @@
+const logo = document.getElementById('logo');
+const leftSidebar = document.getElementById('leftSidebar');
+const rightSidebar = document.getElementById('rightSidebar');
+/*logo.addEventListener('click', ()=> {
+  leftSidebar.classList.toggle('hidden');
+  rightSidebar.classList.toggle('hidden');
+});*/
+
+const leftSidebarIcon = document.getElementById("leftSidebarIcon");
+/*const menuItem = document.querySelectorAll("menuItem");*/
+
+function toggleSidebar() {
+  /*leftSidebar.classList.toggle("active");*/
+  leftSidebarIcon.classList.toggle("open");
+  leftSidebar.classList.toggle('closed');
+  /*menuItem.forEach((item) => {
+    item.classList.toggle("hidden");
+    console.log("Hi");
+  });*/
+}
+
+
+
 const main = document.getElementById("main");
 
 const lbl1 = "School";
@@ -35,47 +58,70 @@ class Library {
     this.lists.push(list);
   }
   
-  createList(list, listActiveContainer, listInactiveContainer){
-      const listActiveHeader = createDOMElement("div", "header");
+  createList(list, listContainer, listActiveContainer, listInactiveContainer){
+      const listActiveHeader = createDOMElement("h3", "list-header");
       const listActiveTitle = createDOMElement("div", "title", list.title);
       const listDeleteBtn = createDOMElement("i", "delete");
       listDeleteBtn.classList.add("bi");
       listDeleteBtn.classList.add("bi-x-circle");      
       
-      this.listDeleteBtn(list, listDeleteBtn, listActiveContainer, listInactiveContainer);
+      this.listDeleteBtn(list, listDeleteBtn, listContainer, listActiveContainer, listInactiveContainer);
       listActiveHeader.appendChild(listActiveTitle);
       listActiveHeader.appendChild(listDeleteBtn);
 
       listActiveContainer.appendChild(listActiveHeader);
     
-      const listInactiveHeader = createDOMElement("div", "header");
-      const listInactiveTitle = createDOMElement("div", "title", "Tasks Completed:");
-      listInactiveHeader.appendChild(listInactiveTitle);
-      listInactiveContainer.appendChild(listInactiveHeader);
-    main.appendChild(listActiveContainer);
-      main.appendChild(listInactiveContainer);
+      const index = this.lists.indexOf(list);
+      const input = createDOMElement("input");
+      input.classList.add("inputCheckbox");
+      input.setAttribute("type", "checkbox");
+      input.setAttribute("id", index);
+      input.checked = false;
+    
+      const listInactiveTitle = createDOMElement("label", "list-header", "Tasks Completed:");
+      listInactiveTitle.htmlFor = index;
+    
+      listInactiveContainer.appendChild(input);
+      listInactiveContainer.appendChild(listInactiveTitle);
+    
+    
+       
+    //listInactiveContainer.appendChild(listInactiveHeader);
+   
   }
 
   printList(list) {
     this.lists.forEach((list) => {
+      const listContainer = createDOMElement("div", "listContainer");
+      
       const listActiveContainer = createDOMElement("div", "list");
       listActiveContainer.classList.add("active");
       
       const listInactiveContainer = createDOMElement("div", "list");      
       listInactiveContainer.classList.add("inactive");
+      listInactiveContainer.classList.add("hidden");
       
-      this.createList(list, listActiveContainer, listInactiveContainer);
-      list.printTasks(listActiveContainer, listInactiveContainer);
+      const tasksInactiveContainer = createDOMElement("div", "tasksInactiveContainer");      
+      
+      this.createList(list, listContainer, listActiveContainer, listInactiveContainer);
+      list.printTasks(tasksInactiveContainer, listActiveContainer, listInactiveContainer);
+      
+      listContainer.appendChild(listActiveContainer);
+      
+      listInactiveContainer.appendChild(tasksInactiveContainer);
+      listContainer.appendChild(listInactiveContainer);
+      main.appendChild(listContainer);
+      
     });
   }
   
-  listDeleteBtn(list, listDeleteBtn, listActiveContainer, listInactiveContainer) {
+  listDeleteBtn(list, listDeleteBtn, listContainer, listActiveContainer, listInactiveContainer) {
     listDeleteBtn.addEventListener("click", () => {
       const index = this.lists.indexOf(list);
       
       this.lists.splice(index, 1);
      
-      list.deleteAllTasks(listActiveContainer, listInactiveContainer);
+      list.deleteAllTasks(listContainer, listActiveContainer, listInactiveContainer);
     });
   }  
   
@@ -101,9 +147,9 @@ class List {
     this.completed.splice(index,1);
   }
 
-  printTasks(listContainer, taskCompletedContainer) {
+  printTasks(tasksInactiveContainer, listContainer, taskCompletedContainer) {
     this.tasks.forEach((task) => {
-      this.displayTask(listContainer, taskCompletedContainer, task);
+      this.displayTask(task, tasksInactiveContainer, listContainer, taskCompletedContainer);
     });
   }
   
@@ -114,7 +160,7 @@ class List {
     });
   }
 
-  deleteAllTasks(listActiveContainer, listInactiveContainer) {
+  deleteAllTasks(listContainer, listActiveContainer, listInactiveContainer) {
     while(listActiveContainer.firstChild) {
       listActiveContainer.firstChild.remove();
       this.tasks.pop();
@@ -124,8 +170,10 @@ class List {
       listInactiveContainer.firstChild.remove();
       this.completed.pop();
     }
-    main.removeChild(listActiveContainer);
-    main.removeChild(listInactiveContainer);
+    main.removeChild(listContainer);
+    //main.removeChild(listActiveContainer);
+    //main.removeChild(listInactiveContainer);
+    
   }
   
   deleteActiveTasks(listActiveContainer){
@@ -150,7 +198,7 @@ class List {
     /*firstList.printTasks();*/
   };
 
-  displayTask(listContainer, taskCompletedContainer, task) {
+  displayTask(task, tasksInactiveContainer, listContainer, taskCompletedContainer) {
     const index = this.tasks.indexOf(task);
     
     const taskContainer = createDOMElement("div", "taskContainer");
@@ -342,20 +390,30 @@ class List {
     listContainer.appendChild(taskContainer);
     
     checkbox.addEventListener("click", () => {   
+      const listInactiveContainer = tasksInactiveContainer.closest(".list");
+
       if(checkbox.checked === true) {
         // move task container to tasks completed
-        taskCompletedContainer.appendChild(taskContainer);
+        tasksInactiveContainer.appendChild(taskContainer);
         
         // remove task from tasks array
-        this.tasks.splice(index, 1);
-        console.log(this);
+        this.tasks.splice(index, 1);        
+        if(this.completed.length > 0){
+          listInactiveContainer.classList.remove("hidden");
+        }
       } else if(checkbox.checked === false) {
         // add task to tasks array
         this.tasks.push(task);
-        console.log(this);
+        console.log(this.completed);
         // add task to active list container
         listContainer.appendChild(taskContainer);
+        if(this.completed.length === 0){
+          listInactiveContainer.classList.add("hidden");
+        }
       }
+      
+      
+      
     });
     
     deleteIcon.addEventListener("click", () => {      
@@ -365,17 +423,16 @@ class List {
         
         listContainer.removeChild(taskContainer);
         console.log(this);
-      } else if (taskCompletedContainer.contains(taskContainer)){
+      } else if (tasksInactiveContainer.contains(taskContainer)){
         const index = this.completed.indexOf(task);
         this.completed.splice(index, 1);
         
-        taskCompletedContainer.removeChild(taskContainer);
-        console.log(this);
+        tasksInactiveContainer.removeChild(taskContainer);
       }
       
       if(this.tasks.length === 0 && this.completed.length === 0) {
         alert("Are you sure?");
-        this.deleteAllTasks(listContainer, taskCompletedContainer);
+        this.deleteAllTasks(listContainer, tasksInactiveContainer);
       }
     });
 
@@ -409,27 +466,6 @@ class List {
       }
       
     });
-  }
-
-  testPrintTasksCompleted(elementContainer) {
-    const taskCompletedContainer = createDOMElement("div", "listContainer");
-    const taskCompletedHeader = createDOMElement("div", "listHeader");
-    const taskCompletedTitle = createDOMElement("div", "taskCompletedTitle", "Tasks Completed:");
-    const taskCompletedIcon = createDOMElement("i", "listDelete");
-    taskCompletedIcon.classList.add("bi");
-    taskCompletedIcon.classList.add("bi-x-circle");
-     
-    taskCompletedHeader.appendChild(taskCompletedTitle);
-    taskCompletedHeader.appendChild(taskCompletedIcon);
-      
-    taskCompletedContainer.appendChild(taskCompletedHeader);
-    
-    this.completed.forEach((task) => {
-      this.displayTask(taskCompletedContainer, task);
-      console.log(this.completed);
-    });
-    
-    elementContainer.appendChild(taskCompletedContainer);
   }
   
   printTasksCompleted(taskCompletedContainer) {
@@ -473,6 +509,8 @@ class List {
 
   
 }
+
+
 
 const task1 = new Task(
   "So cool holiday party",
@@ -540,5 +578,13 @@ thirdList.addTask(task5);
 library.addList(thirdList);
 library.printList();
 
+const lists = document.getElementById("pages");
+const list1 = document.getElementById("list1");
+const list2 = document.getElementById("list2");
+const list3 = document.getElementById("list3");
 
+list1.textContent = library.lists[0].title;
+list2.textContent = library.lists[1].title;
+list3.textContent = library.lists[2].title;
+//console.log(library.lists[1].title);
 /*console.log(library.lists);*/
