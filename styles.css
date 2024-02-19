@@ -1,49 +1,188 @@
-* {
+:root {
+    --header: #9fb9d1;
+    --sidebar: #f1f4f6;
+    --info: #d9dce3;
+    --footer: #9fb9d1;
+    --bg-shadow: gray;
+    
+    --low-priority: #f2bb05;
+    --medium-priority: #f49e4c;
+    --high-priority: #B52C28;
+  }
+  
+  h2, h3 {
+    text-align: center;
+  }
+  
+  * {
     padding: 0;
     margin: 0;
+    font-family:"Segoe","Segoe UI","Arial","sans-serif";
+    font-weight: normal;
   }
   
   .container {
     width: 90vw;
     height: 90vh;
-    border: 2px solid blue;
+    /*border: 2px solid blue;*/
     display: grid;
     grid-template-columns: repeat(9, 1fr);
     grid-template-rows: 1fr 13fr 1fr;
   }
   
   nav {
-    border: 2px solid red;
+    /*border: 2px solid red;*/
     grid-column: 1/10;
     grid-row: 1/2;
     display: flex;
     justify-content: space-between;
+  
+    background: var(--header);
   }
   
   .sidebar {
-    border: 2px solid orange;
-    grid-column: 1/2;
-    grid-row: 2/3;
+    /*border: 2px solid orange;*/
+    
+    
+  
+    background: var(--sidebar);
+    box-shadow: 1px 1px 5px gray;
+    position: relative;
   }
   
-  .heading {
-    text-align: center;
+  .active {
+    left: 0;
+  }
+  
+  .closed {
+    width: 20px;
+    background-color: pink;
+  }
+  
+  .sidebar > h4 {
+    padding-left: 8px;
+    font-size: 0.9rem;
+  }
+  .sidebar > h4:hover {
+    width: 100%;
+    background-color: white;
+    cursor: pointer;
   }
   
   .main {
-    border: 2px solid green;
+    /*border: 2px solid green;*/
     grid-column: 2/9;
     grid-row: 2/3;
   }
   
+  button {
+    background: none;
+    width: 100%;
+    height: 100%;
+    border: none;
+    box-shadow: none;
+  }
+  
+  
+  
+  .taskContainer {
+    /*border: 2px solid red;*/
+  
+    width: 80%;
+    margin: auto;
+  }
+  
+  .taskCard {
+    /*border: 2px solid green;*/
+    
+    align-items: center;
+    box-shadow: 0px 0.3px 0.9px var(--bg-shadow),0px 1.6px 3.6px var(--bg-shadow);
+    margin-top: 8px;
+    border-radius: 4px;
+    padding: 0px 16px;
+    min-height: 42px;
+    
+    display: flex;
+    position: relative;
+    word-wrap: break-word;
+    word-break: break-word;
+    flex-wrap: wrap;
+  }
+  
+  .checkBox {
+    cursor: pointer;
+  }
+  
+  .taskDetails {
+    /*border: 2px solid blue;*/
+    font-size: 0.75rem;
+    color: #323130;
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    flex: 1 1 0px;  
+    overflow: hidden;
+    cursor: pointer;
+    text-align: left;
+    align-items: center;
+    padding-left: 8px;
+  }
+  
+  .taskTitle {
+    width: 80%;
+    font-size: .85rem;
+    font-style: bold;
+  }
+  
+  .days {
+    width: 15%;
+    text-align: center;
+    margin-left: 10px;
+  }
+  
+  .metaData {
+    width: 80%;
+    display: flex;
+    /*border: 2px solid red;*/
+    gap: 5px;
+  }
+  
+  .priority {
+    width: 15%;
+    /*border: 2px solid pink;*/
+    text-align: center;
+    margin-left: 10px;
+  }
+  
+  .low {
+    background-color: var(--low-priority);
+  }
+  
+  .medium {
+    background-color: var(--medium-priority);
+  }
+  
+  .high {
+    background-color: var(--high-priority);
+    color: white;
+  }
+  
   .info {
-    border: 2px solid purple;
+    /*border: 2px solid purple;*/
     grid-column: 9/10;
     grid-row: 2/3;
+  
+    background: var(--info);
+    border-radius: 10px;
+    margin: 5px;
+    padding: 5px;
   }
   
   .footer {
-    border: 2px solid pink;
+    /*border: 2px solid pink;*/
     grid-column: 1/10;
     grid-row: 3/4;
+  
+    background: var(--footer);
   }
+  

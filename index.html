@@ -9,55 +9,73 @@
 <body>
     <div class="container">
         <nav>
-          <div class="logo">Logo</div>
+          <div id="logo" class="logo" onclick="toggleSidebar()">Logo</div>
         </nav>
-        <div class="sidebar">
-          <h3 class="heading">All</h3>
-            <ul>
-              <li>One task</li>
-              <li>Two task</li>
-              <li>Three task</li>
-            </ul>
-          <h3 class="heading">Personal</h3>
-          <ul>
-              <li>One task</li>
-              <li>Two task</li>
-              <li>Three task</li>
-            </ul>
-          <h3 class="heading">School</h3>
-          <ul>
-              <li>One task</li>
-              <li>Two task</li>
-              <li>Three task</li>
-            </ul>
-          <h3 class="heading">Work</h3>
-          <ul>
-              <li>One task</li>
-              <li>Two task</li>
-              <li>Three task</li>
-            </ul>
+        <div id="sidebar" class="sidebar">
+          <icon >iCON</icon>
+          <h4 class="heading">All</h4>
+          <h4 class="heading">Personal</h4>
+          <h4 class="heading">School</h4>
+          <h4 class="heading">Work</h4>
         </div>
-          
-          
-          <div class="main">
-            <h2 class="heading">Heading</h2>
-            <ul class="tasks">
-              <li>task</li>
-              <li>task</li>
-              <li>task</li>
-              <li>task</li>
-              <li>task</li>
-            </ul>
+      
+        <div class="main">
+          <h2 class="heading">Heading</h2>
+          <div class="taskContainer">
+            <div class="taskCard">
+              <span class="checkBox">O</span>
+              <button class="taskDetails">
+                <span class="taskTitle">Create Online Notary Course</span>
+                <span class="days">1 day</span>
+                <span class="metaData">
+                  <span class="category">Personal</span>
+                  <span class="divider">•</span>
+                  <span class="dueDate">Due Mon, December 12</span>
+                </span>
+                <span class="priority low">Low</span>
+              </button>
+            </div>
+            
+            <div class="taskCard">
+              <span class="checkBox">O</span>
+              <button class="taskDetails">
+                <span class="taskTitle">Prepare for Driver's Permit Test</span>
+                <span class="days">6 days</span>
+                <span class="metaData">
+                  <span class="category">School</span>
+                  <span class="divider">•</span>
+                  <span class="dueDate">Due Tues, December 13</span>
+                  <span class="divider">•</span>
+                  <span class="notes">🗈</span>
+                </span>
+                <span class="priority medium">Medium</span>
+              </button>
+            </div>
+            
+            <div class="taskCard">
+              <span class="checkBox">O</span>
+              <button class="taskDetails">
+                <span class="taskTitle">Pick Up Name Change Paperwork</span>
+                <span class="days">10 days</span>
+                <span class="metaData">
+                  <span class="category">Work</span>
+                  <span class="divider">•</span>
+                  <span class="dueDate">Due Fri, December 15</span>
+                </span>
+                <span class="priority high">High</span>
+              </button>
+            </div>
           </div>
-          
-          <div class="info">
-            <div class="heading">Today's Date</div>
-            <div class="heading">Number of Tasks</div>
-          </div>
-          
-          <div class="footer">
-              <p>Copyright © The Odin Project 2021</p>
-          </div>
+        </div>
+      
+        <div class="info">
+          <div class="heading">Today's Date</div>
+          <div class="heading">Number of Tasks</div>
+        </div>
+      
+        <div class="footer">
+          <p>Copyright © The Odin Project 2021</p>
+        </div>
       </div>
 </body>
 </html>
