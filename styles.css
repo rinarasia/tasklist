@@ -1,0 +1,49 @@
+* {
+    padding: 0;
+    margin: 0;
+  }
+  
+  .container {
+    width: 90vw;
+    height: 90vh;
+    border: 2px solid blue;
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);
+    grid-template-rows: 1fr 13fr 1fr;
+  }
+  
+  nav {
+    border: 2px solid red;
+    grid-column: 1/10;
+    grid-row: 1/2;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .sidebar {
+    border: 2px solid orange;
+    grid-column: 1/2;
+    grid-row: 2/3;
+  }
+  
+  .heading {
+    text-align: center;
+  }
+  
+  .main {
+    border: 2px solid green;
+    grid-column: 2/9;
+    grid-row: 2/3;
+  }
+  
+  .info {
+    border: 2px solid purple;
+    grid-column: 9/10;
+    grid-row: 2/3;
+  }
+  
+  .footer {
+    border: 2px solid pink;
+    grid-column: 1/10;
+    grid-row: 3/4;
+  }
