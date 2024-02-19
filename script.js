@@ -1,9 +1,4 @@
-
-
-
 const main = document.getElementById("main");
-/*const list = document.getElementById("list");*/
-const textContent = document.querySelectorAll(".textContent");
 
 const lbl1 = "School";
 const lbl2 = "Work";
@@ -40,125 +35,49 @@ class Library {
     this.lists.push(list);
   }
   
-  createListActive(list, listActiveContainer){
-      const listActiveHeader = createDOMElement("div", "listHeader");
-      const listActiveTitle = createDOMElement("div", "listTitle", list.title);
-      const listActiveDelete = createDOMElement("i", "listDelete");
-      listActiveDelete.classList.add("bi");
-      listActiveDelete.classList.add("bi-x-circle");      
+  createList(list, listActiveContainer, listInactiveContainer){
+      const listActiveHeader = createDOMElement("div", "header");
+      const listActiveTitle = createDOMElement("div", "title", list.title);
+      const listDeleteBtn = createDOMElement("i", "delete");
+      listDeleteBtn.classList.add("bi");
+      listDeleteBtn.classList.add("bi-x-circle");      
       
-      this.testDeleteList(list, listActiveDelete, listActiveHeader, listActiveContainer);
+      this.listDeleteBtn(list, listDeleteBtn, listActiveContainer, listInactiveContainer);
       listActiveHeader.appendChild(listActiveTitle);
-      listActiveHeader.appendChild(listActiveDelete);
+      listActiveHeader.appendChild(listDeleteBtn);
 
       listActiveContainer.appendChild(listActiveHeader);
-  }
-  
-  createListInactive(list, listInactiveContainer){
-      const listInactiveHeader = createDOMElement("div", "taskCompletedHeader");
-      const listInactiveTitle = createDOMElement("div", "taskCompletedTitle", "Tasks Completed:");
-      const listInactiveDelete = createDOMElement("i", "listDelete");
-      listInactiveDelete.classList.add("bi");
-      listInactiveDelete.classList.add("bi-x-circle");
     
-      this.testDeleteList(list, listInactiveDelete, listInactiveHeader, listInactiveContainer);  
-    
+      const listInactiveHeader = createDOMElement("div", "header");
+      const listInactiveTitle = createDOMElement("div", "title", "Tasks Completed:");
       listInactiveHeader.appendChild(listInactiveTitle);
-      listInactiveHeader.appendChild(listInactiveDelete);
-      
       listInactiveContainer.appendChild(listInactiveHeader);
-  }
-  
-  printListActiveAndInactive(list) {
-    this.lists.forEach((list) => {
-      const listActiveContainer = createDOMElement("div", "listContainer");
-      this.createListActive(list, listActiveContainer);
-      
-      const listInactiveContainer = createDOMElement("div", "listContainer");
-      this.createListInactive(list, listInactiveContainer);
-      
-      list.printTasks(listActiveContainer, listInactiveContainer);
-      main.appendChild(listActiveContainer);
+    main.appendChild(listActiveContainer);
       main.appendChild(listInactiveContainer);
-    });
-
   }
-  
-  printList(list){
+
+  printList(list) {
     this.lists.forEach((list) => {
-      const mainContainer = createDOMElement("div", "mainContainer");
-      const listContainer = createDOMElement("div", "listContainer");
-      const listHeader = createDOMElement("div", "listHeader");
-      const listTitle = createDOMElement("div", "listTitle", list.title);
-      const listDelete = createDOMElement("i", "listDelete");
-      listDelete.classList.add("bi");
-      listDelete.classList.add("bi-x-circle");      
+      const listActiveContainer = createDOMElement("div", "list");
+      listActiveContainer.classList.add("active");
       
-      listHeader.appendChild(listTitle);
-      listHeader.appendChild(listDelete);
-
-      listContainer.appendChild(listHeader);
-  
-      const taskCompletedContainer = createDOMElement("div", "listContainer");
-      const taskCompletedHeader = createDOMElement("div", "taskCompletedHeader");
-      const taskCompletedTitle = createDOMElement("div", "taskCompletedTitle", "Tasks Completed:");
-      const taskCompletedIcon = createDOMElement("i", "listDelete");
-      taskCompletedIcon.classList.add("bi");
-      taskCompletedIcon.classList.add("bi-x-circle");
+      const listInactiveContainer = createDOMElement("div", "list");      
+      listInactiveContainer.classList.add("inactive");
       
-      taskCompletedHeader.appendChild(taskCompletedTitle);
-      taskCompletedHeader.appendChild(taskCompletedIcon);
-      
-      taskCompletedContainer.appendChild(taskCompletedHeader);
-      list.printTasks(listContainer, taskCompletedContainer);
-      this.deleteList(list, listDelete, listHeader, listContainer, taskCompletedContainer);
-      /*mainContainer.appendChild(listContainer);*/
-/*      mainContainer.appendChild(taskCompletedContainer);*/
-      main.appendChild(listContainer);
-      main.appendChild(taskCompletedContainer);
-    });
-    
-    if(library.lists.length > 1) {
-      main.classList.remove('single-list');
-      main.classList.add('multiple-lists');
-    } else if (library.lists.length === 1) {
-      main.classList.remove('multiple-lists');
-      main.classList.add('single-list');
-    }
-  }
-  
-  deleteList(list, listDelete, listHeader, listContainer, taskCompletedContainer) {
-    const index = this.lists.indexOf(list);
-    listDelete.addEventListener("click", () => {
-      const index = this.lists.indexOf(list);
-      const position = this.lists[index];
-      /*console.log(position.title);*/
-      this.lists.splice(index, 1);
-      
-      listContainer.removeChild(listHeader);
-      this.lists.slice(index, 1);
-      
-      list.deleteAllTasks(listContainer, taskCompletedContainer);
-      main.removeChild(listContainer);
-      main.removeChild(taskCompletedContainer);
+      this.createList(list, listActiveContainer, listInactiveContainer);
+      list.printTasks(listActiveContainer, listInactiveContainer);
     });
   }
   
-  testDeleteList(list, listDelete, listActiveDelete, listActiveContainer, listInactiveContainer) {
-    const index = this.lists.indexOf(list);
-    listDelete.addEventListener("click", () => {
+  listDeleteBtn(list, listDeleteBtn, listActiveContainer, listInactiveContainer) {
+    listDeleteBtn.addEventListener("click", () => {
       const index = this.lists.indexOf(list);
-      const position = this.lists[index];
-      /*console.log(position.title);*/
+      
       this.lists.splice(index, 1);
-      
-      this.lists.slice(index, 1);
-      
+     
       list.deleteAllTasks(listActiveContainer, listInactiveContainer);
-      main.removeChild(listActiveContainer);
-      main.removeChild(listInactiveContainer);
     });
-  }
+  }  
   
 }
 
@@ -195,18 +114,34 @@ class List {
     });
   }
 
-  deleteAllTasks(listContainer, taskCompletedContainer) {
-    while(listContainer.firstChild) {
-      listContainer.firstChild.remove();
+  deleteAllTasks(listActiveContainer, listInactiveContainer) {
+    while(listActiveContainer.firstChild) {
+      listActiveContainer.firstChild.remove();
       this.tasks.pop();
     }
     
-    while(taskCompletedContainer.firstChild) {
-      taskCompletedContainer.firstChild.remove();
+    while(listInactiveContainer.firstChild) {
+      listInactiveContainer.firstChild.remove();
       this.completed.pop();
     }
-    main.removeChild(listContainer);
-    main.removeChild(taskCompletedContainer);
+    main.removeChild(listActiveContainer);
+    main.removeChild(listInactiveContainer);
+  }
+  
+  deleteActiveTasks(listActiveContainer){
+    while(listActiveContainer.firstChild) {
+      listActiveContainer.firstChild.remove();
+      this.tasks.pop();
+    }
+    main.removeChild(listActiveContainer);
+  }
+  
+  deleteInactiveTasks(listInactiveContainer){
+    while(listInactiveContainer.firstChild) {
+      listInactiveContainer.firstChild.remove();
+      this.completed.pop();
+    }
+    main.removeChild(listInactiveContainer);
   }
 
   firstBooks() {
@@ -219,8 +154,6 @@ class List {
     const index = this.tasks.indexOf(task);
     
     const taskContainer = createDOMElement("div", "taskContainer");
-
-    const topRow = createDOMElement("div", "topRow");
 
     const labels = createDOMElement("ul", "labels");
 
@@ -304,7 +237,7 @@ class List {
       modal.classList.toggle("show-modal");
     }
 
-    const modalContent = createDOMElement("div", "modal-content");
+    const modalContent = createDOMElement("div", "content");
 
     const closeBtn = createDOMElement("i", "closeBtn");
     closeBtn.classList.add("bi");
@@ -347,7 +280,7 @@ class List {
     
     const lowerBar = createDOMElement("div", "lowerBar");
 
-    const modalPriority = createDOMElement("div", "modalPriority", task.priority);
+    const modalPriority = createDOMElement("div", "priority", task.priority);
     this.addPriority(task, modalPriority);
 
     const modalLabels = createDOMElement("ul");
@@ -408,10 +341,7 @@ class List {
     
     listContainer.appendChild(taskContainer);
     
-    checkbox.addEventListener("click", () => {
-      const index = this.tasks.indexOf(task);
-      const position = this.tasks[index];
-      
+    checkbox.addEventListener("click", () => {   
       if(checkbox.checked === true) {
         // move task container to tasks completed
         taskCompletedContainer.appendChild(taskContainer);
@@ -466,7 +396,7 @@ class List {
   }
 
   addCheckbox(task, checkbox, labels, taskDiv) {
-    const index = this.tasks.indexOf(task);
+    //const index = this.tasks.indexOf(task);
     
     checkbox.addEventListener("click", () => {
       labels.classList.toggle("complete");
@@ -549,7 +479,7 @@ const task1 = new Task(
   "Dressy but work appropriate",
   "12/3",
   "high",
-  "Work"
+  ["Work"]
 );
 
 const task2 = new Task("This is at index 2", "I don't know", "Dec 3", "low", [
@@ -560,6 +490,7 @@ const task2 = new Task("This is at index 2", "I don't know", "Dec 3", "low", [
 
 const firstList = new List("First List");
 /*firstList.firstBooks();*/
+firstList.addTask(task1);
 firstList.addTask(task2);
 /*firstList.displayTask(task2);*/
 
@@ -607,7 +538,7 @@ const task5 = new Task("This is really cool", "hehe some notes here", "Dec 1", "
 
 thirdList.addTask(task5);
 library.addList(thirdList);
-library.printListActiveAndInactive();
+library.printList();
 
 
 /*console.log(library.lists);*/
