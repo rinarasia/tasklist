@@ -115,15 +115,21 @@
   height: 100%;
 }
 
-#leftSidebar li {
+#leftSidebar .sidebarLbl {
+  padding: 2px 0px 2px 10px;
   cursor: pointer;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-#leftSidebar li:hover {
+.sidebarLbl:hover {
   background: #f6c78e;
+}
+
+.sidebarLbl.active {
+  color: white;
+  background: #637f92;
 }
 
 #rightSidebar {
@@ -630,7 +636,6 @@ button {
   cursor: pointer;
 }
 
-#tabs .allTasks,
 #tabs .tab {
   font-size: 18px;
   font-weight: bold;
@@ -652,7 +657,7 @@ button {
   flex: 0 0 200px;
 }
 
-#tabs .active {
+#tabs .tab.active {
   border-bottom: 5px solid #637f92;
 }
 
