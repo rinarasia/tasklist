@@ -1,6 +1,8 @@
 const main = document.getElementById("main");
 const tabs = document.getElementById("tabs");
-
+const listAll = document.getElementById("listAll");
+const sidebarLabels = document.getElementById("sidebarLabels");
+const sidebarLists = document.getElementById("sidebarLists");
 
 const lbl1 = "School";
 const lbl2 = "Work";
@@ -24,13 +26,14 @@ class Task {
     this.dueDate = dueDate;
     this.priority = priority;
     this.labels = labels;
+    this.complete = "false";
   }
-  
-  createTask(list, task, tasksInactiveContainer, listContainer, taskCompletedContainer) {
+
+  createTaskContainer(list, task) {
     const taskContainer = createDOMElement("div", "taskContainer");
 
     const labels = createDOMElement("ul", "labels");
-    
+
     this.addLabels(labels, task);
 
     const taskDiv = createDOMElement("div", "task");
@@ -44,7 +47,83 @@ class Task {
     const checkbox = createDOMElement("input", "checkbox");
     checkbox.setAttribute("type", "checkbox");
 
-    this.addCheckbox(list, task, checkbox, labels, taskDiv, taskContainer, listContainer, tasksInactiveContainer);
+    titleRow.appendChild(checkbox);
+
+    const titleDiv = createDOMElement("div", "titleDiv");
+
+    const title = document.createElement("div");
+    title.classList.add("title");
+    title.textContent = task.title;
+
+    titleDiv.appendChild(title);
+    titleRow.appendChild(titleDiv);
+
+    left.appendChild(titleRow);
+
+    const right = createDOMElement("div", "right");
+
+    const dueDate = createDOMElement("div", "dueDate", task.dueDate);
+
+    const viewIcon = createDOMElement("i", "bi");
+    viewIcon.classList.add("bi-eye");
+
+    const editIcon = createDOMElement("i", "bi");
+    editIcon.classList.add("bi-pencil-square");
+
+    const deleteIcon = createDOMElement("i", "bi");
+    deleteIcon.classList.add("bi-trash");
+
+    right.appendChild(dueDate);
+    right.appendChild(viewIcon);
+    right.appendChild(editIcon);
+    right.appendChild(deleteIcon);
+
+    const preview = createDOMElement("div", "preview");
+    preview.classList.add("hidden");
+
+    const notes = createDOMElement("div", "notes", task.notes);
+    notes.classList.add("hidden");
+
+    preview.appendChild(notes);
+
+    taskDiv.appendChild(left);
+    taskDiv.appendChild(right);
+
+    taskContainer.appendChild(labels);
+    taskContainer.appendChild(taskDiv);
+    taskContainer.appendChild(preview);
+    
+    list.test(checkbox, taskDiv);
+  }
+
+  createTask(list, task, tasksInactiveContainer, listActiveContainer) {
+    const taskContainer = createDOMElement("div", "taskContainer");
+
+    const labels = createDOMElement("ul", "labels");
+
+    this.addLabels(labels, task);
+
+    const taskDiv = createDOMElement("div", "task");
+
+    this.addPriority(task, taskDiv);
+
+    const left = createDOMElement("div", "left");
+
+    const titleRow = createDOMElement("div", "titleRow");
+
+    const checkbox = createDOMElement("input", "checkbox");
+    checkbox.setAttribute("type", "checkbox");
+
+    this.addCheckbox(
+      list,
+      task,
+      checkbox,
+      labels,
+      taskDiv,
+      taskContainer,
+      listActiveContainer,
+      tasksInactiveContainer
+    );
 
     titleRow.appendChild(checkbox);
 
@@ -214,60 +293,57 @@ class Task {
     taskContainer.appendChild(preview);
     //taskContainer.appendChild(modal);
 
-    listContainer.appendChild(taskContainer);
-
-    
+    listActiveContainer.appendChild(taskContainer);
 
     deleteIcon.addEventListener("click", () => {
-      
       const index = list.tasks.indexOf(task);
-      if (listContainer.contains(taskContainer)) {
+      if (listActiveContainer.contains(taskContainer)) {
         list.tasks.splice(index, 1);
 
-        listContainer.removeChild(taskContainer);
+        listActiveContainer.removeChild(taskContainer);
         console.log(this);
       } else if (tasksInactiveContainer.contains(taskContainer)) {
         list.completed.splice(index, 1);
 
         tasksInactiveContainer.removeChild(taskContainer);
       }
-      //this.hideListInactive(list, tasksInactiveContainer);      
+      //this.hideListInactive(list, tasksInactiveContainer);
 
       if (list.tasks.length === 0 && list.completed.length === 0) {
         alert("Are you sure?");
-        main.removeChild(listContainer);
+        main.removeChild(listActiveContainer);
         //list.deleteAllTasks(listContainer, tasksInactiveContainer);
       }
-    }); 
+    });
   }
-  
+
   hideListInactive(list, tasksInactiveContainer) {
     const listInactiveContainer = tasksInactiveContainer.closest(".list");
     if (list.completed.length === 0) {
-          listInactiveContainer.classList.add("hidden");
+      listInactiveContainer.classList.add("hidden");
     }
   }
-  
-  
-  addCheckboxOld(task, checkbox, labels, taskDiv) {
-    //const index = this.tasks.indexOf(task);
 
+  addCheckbox(
+    list,
+    task,
+    checkbox,
+    labels,
+    taskDiv,
+    taskContainer,
+    listContainer,
+    tasksInactiveContainer
+  ) {
     checkbox.addEventListener("click", () => {
-      
-    });
-  }
-  addCheckbox(list, task, checkbox, labels, taskDiv, taskContainer, listContainer, tasksInactiveContainer) {
-    checkbox.addEventListener("click", () => {
-      
       labels.classList.toggle("complete");
       taskDiv.classList.toggle("complete");
-      
+
       const listInactiveContainer = tasksInactiveContainer.closest(".list");
       const index = list.tasks.indexOf(task);
-      if (checkbox.checked === true) {       
+      if (checkbox.checked === true) {
         // remove task from tasks array
         list.tasks.splice(index, 1);
-        
+
         // add task to completed
         list.completed.push(task);
 
@@ -279,10 +355,10 @@ class Task {
       } else if (checkbox.checked === false) {
         // add task to tasks array
         list.tasks.push(task);
-        
+
         // remove task from completed
         list.completed.splice(index, 1);
-        
+
         // add task to active list container
         listContainer.appendChild(taskContainer);
         console.log(list.completed);
@@ -290,10 +366,10 @@ class Task {
       }
     });
   }
-  
+
   addLabels(labels, task) {
     task.labels.forEach((lbl) => {
-      const li = document.createElement("li");
+      const li = createDOMElement("li", "label");
       li.textContent = lbl;
 
       this.colorLabels(li, lbl);
@@ -321,7 +397,7 @@ class Task {
         break;
     }
   }
-  
+
   addPriority(task, el) {
     switch (task.priority) {
       case "low":
@@ -335,24 +411,63 @@ class Task {
         break;
     }
   }
-  
-  
 }
 
+/*----------------------- LIBRARY CLASS --------------------*/
 class Library {
   constructor() {
     this.lists = [];
+    this.labels = ["School", "Work", "Home", "Personal", "Other"];
+  }
+
+  printLabels() {
+    library.labels.forEach((label) => {
+      const sidebarLbl = createDOMElement("li", "label", label);
+      sidebarLabels.appendChild(sidebarLbl);
+
+      sidebarLbl.addEventListener("click", () => {
+        main.textContent = "";
+        this.lists.forEach((list) => {
+          const index = this.lists.indexOf(list);
+          const selectedList = library.lists[index];
+          this.printLabelList(selectedList, sidebarLbl);
+        });
+      });
+    });
   }
 
   addList(list) {
     this.lists.push(list);
-  }
-  
-  deleteList(list) {
-    console.log(list);
+
+    this.addListTab(list);
   }
 
-  createList(list, listContainer, listActiveContainer, listInactiveContainer) {
+  addListTab(list) {
+    const tabLi = createDOMElement("li", "tab", list.title);
+    tabs.appendChild(tabLi);
+
+    listAll.addEventListener("click", () => {
+      this.clearLibrary();
+      library.lists.forEach((list) => {
+        this.printSingleList(list);
+      });
+    });
+
+    tabLi.addEventListener("click", () => {
+      const index = this.lists.indexOf(list);
+      const selectedList = library.lists[index];
+
+      this.clearLibrary();
+      this.printSingleList(selectedList);
+    });
+  }
+
+  printListHeaders(
+    list,
+    listContainer,
+    listActiveContainer,
+    listInactiveContainer
+  ) {
     const listActiveHeader = createDOMElement("h3", "list-header");
     const listActiveTitle = createDOMElement("div", "title", list.title);
     const listDeleteBtn = createDOMElement("i", "delete");
@@ -370,7 +485,15 @@ class Library {
     listActiveHeader.appendChild(listDeleteBtn);
 
     listActiveContainer.appendChild(listActiveHeader);
+  }
 
+  createList(list, listContainer, listActiveContainer, listInactiveContainer) {
+    library.printListHeaders(
+      list,
+      listContainer,
+      listActiveContainer,
+      listInactiveContainer
+    );
     const index = this.lists.indexOf(list);
     const input = createDOMElement("input");
     input.classList.add("inputCheckbox");
@@ -388,64 +511,96 @@ class Library {
     listInactiveContainer.appendChild(input);
     listInactiveContainer.appendChild(listInactiveTitle);
   }
-  
+
+  clearLibrary() {
+    while (listAll.nextElementSibling) {
+      listAll.nextElementSibling.remove();
+    }
+    library.lists.forEach((list) => {
+      this.addListTab(list);
+    });
+
+    main.textContent = "";
+  }
+
   printAllLists() {
-    const all = createDOMElement("li", "tab", "All tasks");
-    all.classList.add("active");
-    tabs.appendChild(all);
-    
+    this.printLabels();
     this.lists.forEach((list) => {
-      const li = createDOMElement("li", "tab", list.title);
-      tabs.appendChild(li);
       const index = this.lists.indexOf(list);
       const selectedList = library.lists[index];
       this.printSingleList(selectedList);
-      
-      li.addEventListener("click", () => {
-        main.textContent = "";
-        console.log(index);
-        this.printSingleList(selectedList);
-      });
-    });
-    
-    all.addEventListener("click", () => {
-        main.textContent = "";
-        this.lists.forEach((list) => {
-          this.printSingleList(list);
-        });
     });
   }
-  
+
+  printLabelList(list, sidebarLbl) {
+    const listContainer = createDOMElement("div", "listContainer");
+
+    const listActiveContainer = createDOMElement("div", "list");
+    listActiveContainer.classList.add("active");
+
+    const listInactiveContainer = createDOMElement("div", "list");
+    listInactiveContainer.classList.add("inactive");
+    listInactiveContainer.classList.add("hidden");
+
+    const tasksInactiveContainer = createDOMElement(
+      "div",
+      "tasksInactiveContainer"
+    );
+
+    this.createList(
+      list,
+      listContainer,
+      listActiveContainer,
+      listInactiveContainer
+    );
+
+    list.filterbyLabel(
+      sidebarLbl,
+      tasksInactiveContainer,
+      listActiveContainer,
+      listInactiveContainer
+    );
+
+    listContainer.appendChild(listActiveContainer);
+    listInactiveContainer.appendChild(tasksInactiveContainer);
+    listContainer.appendChild(listInactiveContainer);
+    main.appendChild(listContainer);
+  }
+
   printSingleList(list) {
     const listContainer = createDOMElement("div", "listContainer");
 
-      const listActiveContainer = createDOMElement("div", "list");
-      listActiveContainer.classList.add("active");
+    const listActiveContainer = createDOMElement("div", "list");
+    listActiveContainer.classList.add("active");
 
-      const listInactiveContainer = createDOMElement("div", "list");
-      listInactiveContainer.classList.add("inactive");
-      listInactiveContainer.classList.add("hidden");
+    const listInactiveContainer = createDOMElement("div", "list");
+    listInactiveContainer.classList.add("inactive");
+    //listInactiveContainer.classList.add("hidden");
 
-      const tasksInactiveContainer = createDOMElement(
-        "div",
-        "tasksInactiveContainer"
-      );
+    const tasksInactiveContainer = createDOMElement(
+      "div",
+      "tasksInactiveContainer"
+    );
 
-      this.createList(
-        list,
-        listContainer,
-        listActiveContainer,
-        listInactiveContainer
-      );
-      list.printTasks(
-        tasksInactiveContainer,
-        listActiveContainer,
-        listInactiveContainer
-      );
-    
-      listContainer.appendChild(listActiveContainer); listInactiveContainer.appendChild(tasksInactiveContainer);
-      listContainer.appendChild(listInactiveContainer);
-      main.appendChild(listContainer);
+    this.createList(
+      list,
+      listContainer,
+      listActiveContainer,
+      listInactiveContainer
+    );
+
+    list.printTasks(
+      tasksInactiveContainer,
+      listActiveContainer,
+      listInactiveContainer
+    );
+
+    list.printCompletedTasks(tasksInactiveContainer, listInactiveContainer);
+
+    listContainer.appendChild(listActiveContainer);
+    listInactiveContainer.appendChild(tasksInactiveContainer);
+    listContainer.appendChild(listInactiveContainer);
+    main.appendChild(listContainer);
   }
 
   listDeleteBtn(
@@ -455,14 +610,16 @@ class Library {
     listActiveContainer,
     listInactiveContainer
   ) {
-    listDeleteBtn.addEventListener("click", () => {
+    listDeleteBtn.addEventListener("click", (e) => {
       const index = this.lists.indexOf(list);
+
       this.lists.splice(index, 1);
-      
-      const selectedList = library.lists[index];
-      for(let i = 0; i<library.lists.length; i++){
-        console.log(selectedList.title);
-      }
+
+      const tabLi = document.querySelectorAll(".tab");
+      const array = Array.from(tabLi);
+
+      const tabIndex = array[index];
+      array[index].remove();
 
       list.deleteAllTasks(
         listContainer,
@@ -471,28 +628,9 @@ class Library {
       );
     });
   }
-
-  createListTitle(
-    list,
-      listContainer,
-      tasksInactiveContainer,
-      listActiveContainer,
-      listInactiveContainer
-  ) {
-    const tabs = document.getElementById("tabs");
-    const all = createDOMElement("li", "tab", "All tasks");
-    const li = createDOMElement("li", "tab", list.title);
-    tabs.appendChild(li);
-
-    li.addEventListener("click", () => {
-      const listTest = listContainer.closest(".list");
-      const index = this.lists.indexOf(list);
-      const selectedList = library.lists[index];
-      main.textContent = "";      
-      this.printSingleList(selectedList);
-    });
-  }
 }
+
+/*----------------------- LIST CLASS -----------------------*/
 
 class List {
   constructor(title) {
@@ -509,19 +647,56 @@ class List {
     this.completed.push(task);
   }
 
+  filterbyLabel(
+    sidebarLbl,
+    tasksInactiveContainer,
+    listActiveContainer,
+    listInactiveContainer
+  ) {
+    this.tasks.forEach((task) => {
+      if (task.labels.includes(sidebarLbl.innerHTML)) {
+        task.createTask(
+          this,
+          task,
+          tasksInactiveContainer,
+          listActiveContainer,
+          listInactiveContainer
+        );
+      }
+    });
+  }
+
   revertTask(task) {
     const index = this.completed.indexOf(task);
     this.completed.splice(index, 1);
   }
 
-  printTasks(tasksInactiveContainer, listContainer, taskCompletedContainer) {
+  printTasks(
+    tasksInactiveContainer,
+    listActiveContainer,
+    listInactiveContainer
+  ) {
     this.tasks.forEach((task) => {
-      task.createTask(this, task, tasksInactiveContainer, listContainer, taskCompletedContainer);      
+      console.log(task.complete);
+      task.createTask(this, task, tasksInactiveContainer, listActiveContainer);
+//task.createTaskContainer(this, task);
     });
+    if (this.completed.length > 0) {
+      listInactiveContainer.classList.remove("hidden");
+    }
   }
-  
-  testTaskConstructor(task) {
-      task.createTask(task);
+
+  printCompletedTasks(tasksInactiveContainer, listInactiveContainer) {
+    this.completed.forEach((task) => {
+      task.createTask(
+        this,
+        task,
+        tasksInactiveContainer,
+        listInactiveContainer
+      );
+      const test = listInactiveContainer.closest("taskContainer");
+      console.log(tasksInactiveContainer);
+    });
   }
 
   showcompleted(taskCompletedContainer) {
@@ -579,33 +754,43 @@ class List {
       ])
     );
   }
-
+  
+  test(checkbox, taskDiv) {
+    if(checkbox.checked) {
+      console.log("true");
+    } else {
+      console.log("False");
+    }
+  }
+  
+  
 }
+
+/*----------------------- END LIST CLASS ------------------*/
 
 const task1 = new Task(
   "So cool holiday party",
   "Dressy but work appropriate",
   "12/3",
   "high",
-  ["Work"]
+  ["Work"], 
+  true
 );
 
 const task2 = new Task("This is at index 2", "I don't know", "Dec 3", "low", [
   "School",
   "Work",
   "Other"
-]);
+], false);
 
 const firstList = new List("First List");
 /*firstList.firstBooks();*/
 firstList.addTask(task1);
 firstList.addTask(task2);
 
-
 const library = new Library();
 
 library.addList(firstList);
-
 
 const newTask = new Task("new task!", "hehe some notes here", "Dec 1", "low", [
   "School"
@@ -623,7 +808,7 @@ const task3 = new Task(
   "hehe some notes here",
   "Dec 1",
   "low",
-  ["School"]
+  ["School", "Personal"]
 );
 
 const task4 = new Task(
@@ -631,7 +816,7 @@ const task4 = new Task(
   "hehe some notes here",
   "Dec 1",
   "low",
-  ["School"]
+  ["School", "Home"]
 );
 secondList.addTask(task3);
 secondList.addTask(task4);
@@ -654,7 +839,7 @@ library.addList(thirdList);
 library.printAllLists();
 
 function searchTasks() {
-  var input, filter, main, tasks, a, i, txtValue, taskContainer, listContainer;
+  let input, filter, main, tasks, a, i, txtValue, taskContainer, listContainer;
   input = document.getElementById("search");
   filter = input.value.toUpperCase();
   main = document.getElementById("main");
@@ -673,8 +858,20 @@ function searchTasks() {
   }
 }
 /*
-allTasks.addEventListener("click", () => {
+listAll.addEventListener("click", () => {
   main.textContent = "";
-  library.testPrintAllLists();
+  library.printListHeaders();
+  library.printAllLists();
 });
+
+
+
+
+
+
+      const filterValue = "Work";
+      const filteredBooks = selectedList.tasks.filter((val) =>
+        val.labels.includes(filterValue)
+      );
+      console.log(filteredBooks);
 */

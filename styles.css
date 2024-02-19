@@ -599,14 +599,12 @@ button {
 
 .list.inactive input:checked ~ .tasksInactiveContainer {
   max-height: 10rem;
-  
 }
 
 /* Visual styles */
 
 .list.inactive input:checked + .list-header::after {
   transform: rotate(-90deg);
-  
 }
 
 /* TABLE HEADERS */
@@ -632,6 +630,7 @@ button {
   cursor: pointer;
 }
 
+#tabs .allTasks,
 #tabs .tab {
   font-size: 18px;
   font-weight: bold;
