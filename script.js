@@ -1,6 +1,14 @@
+const logo = document.getElementById('logo');
+const leftSidebar = document.getElementById('leftSidebar');
+const rightSidebar = document.getElementById('rightSidebar');
+logo.addEventListener('click', ()=> {
+  /*leftSidebar.classList.toggle('hidden');*/
+  rightSidebar.classList.toggle('hidden');
+});
+
 const main = document.getElementById("main");
-/*const list = document.getElementById("list");*/
-const textContent = document.querySelectorAll(".textContent");
+
+
 
 const lbl1 = "School";
 const lbl2 = "Work";
@@ -16,6 +24,10 @@ function createDOMElement(elementName, className, elementText, elementValue) {
 
   return newElement;
 }
+
+/*const pageTitle = createDOMElement("div", "pageTitle", "Page Title");
+
+main.appendChild(pageTitle);*/
 /*
 function logForm(form) {
   console.log(form);
@@ -102,7 +114,7 @@ class Library {
     this.lists.forEach((list) => {
       const listContainer = createDOMElement("div", "listContainer");
       const listHeader = createDOMElement("div", "listHeader");
-      const listTitle = createDOMElement("div", "listTitle", list.title);
+      const listTitle = createDOMElement("h3", "", list.title);
       const listDelete = createDOMElement("i", "listDelete");
       listDelete.classList.add("bi");
       listDelete.classList.add("bi-x-circle");      
@@ -528,6 +540,14 @@ const task5 = new Task("This is really cool", "hehe some notes here", "Dec 1", "
 
 thirdList.addTask(task5);
 library.addList(thirdList);
+
+const fourthList = new List("Personal Tasks");
+
+const task6 = new Task("This is really cool", "hehe some notes here", "Dec 1", "low", [
+  "Work", "Other"]);
+
+fourthList.addTask(task6);
+library.addList(fourthList);
 library.printList();
 
 
