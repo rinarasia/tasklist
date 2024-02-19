@@ -1,10 +1,24 @@
 const logo = document.getElementById('logo');
 const leftSidebar = document.getElementById('leftSidebar');
 const rightSidebar = document.getElementById('rightSidebar');
-logo.addEventListener('click', ()=> {
-  /*leftSidebar.classList.toggle('hidden');*/
+/*logo.addEventListener('click', ()=> {
+  leftSidebar.classList.toggle('hidden');
   rightSidebar.classList.toggle('hidden');
-});
+});*/
+
+const leftSidebarIcon = document.getElementById("leftSidebarIcon");
+/*const menuItem = document.querySelectorAll("menuItem");*/
+
+function toggleSidebar() {
+  /*leftSidebar.classList.toggle("active");*/
+  leftSidebarIcon.classList.toggle("open");
+  leftSidebar.classList.toggle('closed');
+  /*menuItem.forEach((item) => {
+    item.classList.toggle("hidden");
+    console.log("Hi");
+  });*/
+}
+
 
 const main = document.getElementById("main");
 
