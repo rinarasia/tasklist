@@ -1,188 +1,448 @@
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css");
+
+:root {
+  --width: 80%;
+
+  --lblMargin: 20px;
+  --taskMargin: calc(var(--lblMargin) - 7px);
+  --notesMargin: calc(var(--lblMargin) + 21px);
+  --prevMarginRight: 12rem;
+
+  --lbl1border: red;
+  --lbl1bg: #f2babe;
+
+  --lbl2border: blue;
+  --lbl2bg: #bbdaf2;
+
+  --lbl3border: green;
+  --lbl3bg: #d9fbd1;
+
+  --lbl4border: orange;
+  --lbl4bg: #f3d3ba;
+
+  --lbl5border: purple;
+  --lbl5bg: #e7d7f5;
+
+  --low: green;
+  --medium: orange;
+  --high: red;
+}
+
 * {
-    margin: 0;
-    padding: 0;
-  }
+  margin: 0;
+  padding: 0;
+}
+
+.titleRow .titleDiv {
+  width: 100%;
+}
+
+.titleRow .title {
+  max-width: 90%;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  border: 1px solid red;
+}
+
+.listHeader {
+  display: flex;
+  justify-content: space-between;
+  width: var(--width);
+  margin: auto;
   
-  .checkbox {
-    width: 10px;
-    height: 10px;
-    border: 2px solid gray;
-    border-radius: 3px;
-  }
+}
+
+.listTitle {
+  text-align: center;
+}
+
+.container {
+  /*box-shadow: 1px 1px 5px gray;*/
+  min-width: var(--width);
+  width: 600px;
+  border-radius: 3px;
+  margin: auto;
+
+  border-top: 1px solid rgb(237, 235, 233);
+  border-radius: 4px 0px 4px 4px;
+  border-right-color: rgb(237, 235, 233);
+  border-bottom-color: rgb(237, 235, 233);
+  border-left-color: rgb(237, 235, 233);
+}
+
+/*
+.taskDelete {
+  display: flex;
+  flex-flow: row;
+  flex: 0 0 auto;
+  min-height: 0px;
+  min-width: 0px;
+  color: rgb(96, 94, 92);
+  font-size: 12px;
+  right: 2px;
+  top: 2px;
+  line-height: 20px;
+  letter-spacing: 0.75px;
+
+  border: 1px solid black;
+  border-radius: 30px;
+  padding: 0px 6px;
+  position: absolute;
+}
+*/
+.taskContainer {
+  display: flex;
+  flex-flow: column;
+
+  cursor: pointer;
+  position: relative;
+  border-radius: 3px 3px 0px 0px;
+}
+
+.labels {
+  flex: 1 1 auto;
+  min-height: 0px;
+  min-width: 0px;
+
+  display: flex;
+  flex-flow: wrap;
+  justify-content: flex-start;
+  padding: 5px 20px 0px;
+  gap: 5px;
+}
+
+.labels li {
+  list-style: none;
+  border-radius: 3px;
+  padding: 0px 2px;
+  font-size: 12px;
+  margin-bottom: -5px;
+}
+
+li.lbl1 {
+  border: 1px solid var(--lbl1border);
+  background: var(--lbl1bg);
+  margin-left: var(--lblMargin);
+}
+
+li.lbl2 {
+  border: 1px solid var(--lbl2border);
+  background: var(--lbl2bg);
+}
+
+li.lbl3 {
+  border: 1px solid var(--lbl3border);
+  background: var(--lbl3bg);
+}
+
+li.lbl4 {
+  border: 1px solid var(--lbl4border);
+  background: var(--lbl4bg);
+}
+
+li.lbl5 {
+  border: 1px solid var(--lbl5border);
+  background: var(--lbl5bg);
+}
+
+.labels.complete > li {
+  color: #656565;
+  background-color: #d6d6d6;
+  border: 1px solid gray;
+}
+
+.task {
+  display: flex;
+  border-radius: 4px 0px 4px 4px;
+}
+
+.task.complete {
+  color: gray;
+  text-decoration: line-through;
+}
+
+.task.low {
+  border-left: 4px solid var(--low);
+}
+
+.task.medium {
+  border-left: 4px solid var(--medium);
+}
+
+.task.high {
+  border-left: 4px solid var(--high);
+}
+
+.low.complete,
+.medium.complete,
+.high.complete {
+  border-left: 4px solid gray;
+}
+
+.left {
+  flex: 1 1 auto;
+  min-height: 0px;
+  min-width: 0px;
+
+  display: flex;
+  flex-flow: column;
+  justify-content: space-between;
+  padding: 6px;
+}
+
+.titleRow {
+  display: flex;
+  align-items: center;
+}
+
+input[type="checkbox"] {
+  width: 12px;
+  height: 12px;
+  border: 2px solid gray;
+  border-radius: 3px;
+  margin: 0px 12px 0px 5px;
+}
+
+input[type="checkbox"]:hover {
+  box-shadow: 0 0 0 20px #f5f5f5;
+  clip-path: circle(100%);
+  cursor: pointer;
+}
+
+input[type="checkbox"]:checked {
+  accent-color: gray;
+}
+
+.indicatorRow {
+  display: flex;
+  flex-flow: row;
+  flex: 0 0 auto;
+  min-height: 0px;
+  min-width: 0px;
+  color: rgb(96, 94, 92);
+  font-size: 12px;
+  line-height: 20px;
+  margin-top: 8px;
+  margin-bottom: -4px;
+  letter-spacing: 0.75px;
+}
+
+.right {
+  display: grid;
+  grid-template-columns: 90px 1fr 1fr 1fr;
+  gap: 5px;
+  transition: color 0.167s ease-in-out 0s, background 0.167s ease-in-out 0s;
+
+  flex-basis: auto;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.right * {
+  padding: 3px 3px;
+}
+
+.right .dueDate {
+  justify-self: start;
+}
+
+.right i {
+  justify-self: center;
+}
+
+.right *:hover {
+  background: #e2e1df;
+  border-radius: 3px;
+}
+
+.dueDate {
+  font-size: 16px;
+}
+
+.profile {
+  display: flex;
+  flex-flow: column;
+  cursor: pointer;
+  flex: 1 1 0px;
+  min-height: 0px;
+  min-width: 0px;
+  width: 100%;
+}
+
+.main {
+  padding: 10px;
+  margin: auto;
+  width: 90%;
+}
+
+.hidden {
+  display: none;
+}
+
+.notes {
+  color: gray;
+  font-size: 12px;
+}
+
+.preview {
+  margin-left: var(--notesMargin);
+  margin-right: var(--prevMarginRight);
+  max-width: 70%;
+}
+
+/* MODAL TESTINGGGGGGGGGGGGGGG*/
+.modal {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(1.1);
+  transition: visibility 0s linear 0.25s, opacity 0.25s 0s, transform 0.25s;
+  z-index: 2;
+}
+
+.modal-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 1rem 1.5rem 1rem 1rem;
+  width: 24rem;
+  border-radius: 0.5rem;
+
+  display: grid;
+  grid-template-rows: min-content 1fr min-content repeat(2, min-content);
+  grid-template-columns: 1fr 6fr;
+  row-gap: 10px;
+  column-gap: 5px;
+}
+
+.modal-content span {
+  border-radius: 4px;
+  padding: 5px;
+  color: black;
+  border: 1px solid lightgray;
+}
+
+button {
+  border: none;
+}
+
+.modal-content .saveBtn {
+  justify-self: end;
+  align-self: center;
   
-  .title {
-    width: 12rem;
-    display: block;
-    overflow: hidden;
-    text-wrap: wrap;
-  }
+  background-color: #50C878;
   
-  .list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    border: 2px solid red;
-  }
+  padding: 2px 5px;
+  border-style: outset;
+  border-bottom: 3px solid green;
+  border-radius: 4px;
   
-  .listHeader {
-    display: flex;
-    justify-content: space-between;
-    width: 60%;
-    margin: auto;
-  }
-  
-  .listTitle {
-    text-align: center;
-  }
-  
-  .container {
-    box-shadow: 1px 1px 5px gray;
-    min-width: 60%;
-    border-radius: 3px;
-    margin: auto;
-  }
-  
-  .taskDelete {
-    display: flex;
-    flex-flow: row;
-    flex: 0 0 auto;
-    min-height: 0px;
-    min-width: 0px;
-    color: rgb(96, 94, 92);
-    font-size: 12px;
-    right: 2px;
-    top: 2px;
-    line-height: 20px;
-    letter-spacing: 0.75px;
-  
-    border: 1px solid black;
-    border-radius: 30px;
-    padding: 0px 6px;
-    position: absolute;
-  }
-  
-  .textContent {
-    display: flex;
-    flex-flow: column;
-    cursor: pointer;
-    position: relative;
-    border-radius: 3px 3px 0px 0px;
-  }
-  
-  .labels {
-    flex: 1 1 auto;
-    min-height: 0px;
-    min-width: 0px;
-  
-    display: flex;
-    flex-flow: wrap;
-    justify-content: flex-start;
-    padding: 12px 12px 0px;
-    margin-bottom: -6px;
-    gap: 3px;
-  }
-  
-  .labels > li {
-    list-style: none;
-    border: 1px solid red;
-    border-radius: 3px;
-    padding: 0px 2px;
-  }
-  
-  .topBar {
-    flex: 1 1 auto;
-    min-height: 0px;
-    min-width: 0px;
-  
-    display: flex;
-    flex-flow: column;
-    justify-content: space-between;
-    padding: 12px;
-  }
-  
-  .titleRow {
-    display: flex;
-  }
-  
-  .titleRow > .checkbox {
-    align-self: flex-start;
-    margin-top: 2px;
-  }
-  
-  .titleRow > .title {
-    margin-left: 5px;
-  }
-  
-  .previewRow {
-    color: rgb(96, 94, 92);
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 5;
-    white-space: pre-line;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    font-size: 12px;
-    line-height: 1;
-    overflow-wrap: normal;
-    max-height: 80px;
-    margin-left: 20px;
-  }
-  
-  .indicatorRow {
-    display: flex;
-    flex-flow: row;
-    flex: 0 0 auto;
-    min-height: 0px;
-    min-width: 0px;
-    color: rgb(96, 94, 92);
-    font-size: 12px;
-    line-height: 20px;
-    margin-top: 8px;
-    margin-bottom: -4px;
-    letter-spacing: 0.75px;
-  }
-  
-  .bottomBar {
-    display: flex;
-    flex-flow: row;
-    justify-content: space-between;
-    transition: color 0.167s ease-in-out 0s, background 0.167s ease-in-out 0s;
-    border-top: 1px solid rgb(237, 235, 233);
-    border-radius: 0px 0px 3px 3px;
-    border-right-color: rgb(237, 235, 233);
-    border-bottom-color: rgb(237, 235, 233);
-    border-left-color: rgb(237, 235, 233);
-  }
-  
-  .bottomBarLeft {
-    display: flex;
-    flex-flow: row;
-    gap: 5px;
-    padding-left: 12px;
-    margin: 6px 0px;
-  }
-  
-  .bottomBarRight {
-    display: flex;
-    flex-flow: row;
-    margin: 6px;
-  }
-  
-  .profile {
-    display: flex;
-    flex-flow: column;
-    cursor: pointer;
-    flex: 1 1 0px;
-    min-height: 0px;
-    min-width: 0px;
-    width: 100%;
-  }
-  
-  .main {
-    border: 2px solid green;
-  
-    padding: 10px;
-    margin: auto;
-    width: 90%;
-  }
-  
+  grid-column: 1 / span 2;
+}
+
+.modal-content .saveBtn:hover {
+  cursor: pointer;
+  background-color: #3BBA65;
+}
+
+.modal-content .dueDate {
+  justify-self: end;
+  align-self: center;
+}
+
+.modal-content ul {
+  display: flex;
+  gap: 5px;
+  margin: auto;
+}
+
+.modal-content li {
+  list-style: none;
+  border-radius: 3px;
+  padding: 0px 2px;
+  font-size: 12px;
+}
+
+.modalPriority {
+  font-size: 12px;
+  align-self: center;
+  padding: 0px 5px;
+  border-radius: 4px;
+}
+
+.modalPriority.low {
+  border-left: 4px solid var(--low);
+  border-right: 1px solid var(--low);
+  border-top: 1px solid var(--low);
+  border-bottom: 1px solid var(--low);
+}
+
+.modalPriority.medium {
+  border-left: 4px solid var(--medium);
+  border-right: 1px solid var(--medium);
+  border-top: 1px solid var(--medium);
+  border-bottom: 1px solid var(--medium);
+}
+
+.modalPriority.high {
+  border-left: 4px solid var(--high);
+  border-right: 1px solid var(--high);
+  border-top: 1px solid var(--high);
+  border-bottom: 1px solid var(--high);
+}
+
+.lowerBar {
+  display: flex;
+  justify-content: space-between;
+  margin: 5px 0px;
+  place-content: center;
+  grid-column: 1 / span 2;
+}
+
+.closeBtn {
+  justify-self: end;
+  cursor: pointer;
+  font-size: 14px;
+  grid-column: 1 / span 2;
+}
+
+.closeBtn:hover {
+  background-color: darkgray;
+}
+
+.show-modal {
+  opacity: 1;
+  visibility: visible;
+  transform: scale(1);
+  transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
+}
+
+/* ADD TASK FORM STYLING */
+
+.addTask {
+  border: 1px solid red;
+
+  width: 50%;
+  display: flex;
+  flex-flow: column;
+  padding: 10px;
+}
+
+.addTask input[type="text"] {
+  width: 50%;
+}

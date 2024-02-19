@@ -7,234 +7,101 @@
     <title>Document</title>
 </head>
 <body>
-    <div id="main" class="main">
-        <div class="list">
-          <div class="listHeader">
-            <div class="listTitle">List One</div>
-            <div class="listDelete">X</div>
-          </div>
-          <div class="container">
-            <div class="textContent">
-              <div class="taskDelete">x</div>
-              <ul class="labels">
-                <li>Amendment</li>
-              </ul>
-              <div class="topBar">
-                <div class="titleRow">
-                  <div class="checkbox"></div>
-                  <div class="title">Title is really</div>
-                </div>
-                <div class="previewRow">
-                  <div class="previewNotes">Notes and some text and how many lines is this?</div>
-                </div>
-                <div class="indicatorRow">
-                  <div class="indicatorText">Indication</div>
-                </div>
-              </div>
-      
-              <div class="bottomBar">
-                <div class="bottomBarLeft">
-                  <i class="bi bi-calendar3"></i>
-                  <div class="dueDate">December 3</div>
-                </div>
-                <div class="bottomBarRight">
-                  <div class="profile">
-                    <i class="bi bi-person-circle"></i>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-      
-          <div class="container">
-            <div class="textContent">
-              <ul class="labels">
-                <li>Amendment</li>
-                <li>Testing</li>
-                <li>Another</li>
-                <li>Folder</li>
-              </ul>
-              <div class="topBar">
-                <div class="titleRow">
-                  <div class="checkbox"></div>
-                  <div class="title">Title</div>
-                </div>
-                <div class="indicatorRow">
-                  <div class="indicatorText">Indication</div>
-                </div>
-              </div>
-      
-              <div class="bottomBar">
-                <div class="bottomBarLeft">Left</div>
-                <div class="bottomBarRight">
-                  <div class="profile">
-                    R
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-      
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.min.js"></script>
+
+<div id="main" class="main">
+  <div class="list" id="list">
+    <div class="listHeader">
+      <div class="listTitle">List One</div>
+      <div class="listDelete">X</div>
+    </div>
+
+    <div class="container">
+      <div class="taskContainer">
+        <div class="topRow">
+          <ul class="labels">
+            <li>School</li>
+            <li>Work</li>
+          </ul>
         </div>
-      
-        <!------------------------------->
-      
-        <div class="list">
-          <div class="listHeader">
-            <div class="listTitle">List Two</div>
-            <div class="listDelete">X</div>
-          </div>
-      
-          <div class="container">
-            <div class="textContent">
-              <div class="taskDelete">x</div>
-              <ul class="labels">
-                <li>Amendment</li>
-              </ul>
-              <div class="topBar">
-                <div class="titleRow">
-                  <div class="checkbox"></div>
-                  <div class="title">Three</div>
-                </div>
-                <div class="indicatorRow">
-                  <div class="indicatorText">Indication</div>
-                </div>
-              </div>
-      
-              <div class="bottomBar">
-                <div class="bottomBarLeft">Left</div>
-                <div class="bottomBarRight">
-                  <div class="profile">
-                    F
-                  </div>
-                </div>
-              </div>
+
+        <div class="task high">
+          <div class="left">
+            <div class="titleRow">
+              <input type="checkbox" onclick="completeTask()" class="checkbox" id="checkbox1"></input>
+              <div class="title">Complete TOP task list project</div>
             </div>
           </div>
-      
-          <div class="container">
-            <div class="textContent">
-              <div class="taskDelete">x</div>
-              <ul class="labels">
-                <li>Amendment</li>
-                <li>Testing</li>
-                <li>Another</li>
-                <li>Folder</li>
-              </ul>
-              <div class="topBar">
-                <div class="titleRow">
-                  <div class="checkbox"></div>
-                  <div class="title">Four</div>
-                </div>
-                <div class="indicatorRow">
-                  <div class="indicatorText">Indication</div>
-                </div>
-              </div>
-      
-              <div class="bottomBar">
-                <div class="bottomBarLeft">Left</div>
-                <div class="bottomBarRight">
-                  <div class="profile">
-                    R
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-      
-        </div>
-      
-        <!------------------------------->
-      
-        <div class="list">
-          <div class="listHeader">
-            <div class="listTitle">List Threeee</div>
-            <div class="listDelete">X</div>
-          </div>
-      
-          <div class="container">
-            <div class="textContent">
-              <div class="taskDelete">x</div>
-              <ul class="labels">
-                <li>Amendment</li>
-              </ul>
-              <div class="topBar">
-                <div class="titleRow">
-                  <div class="checkbox"></div>
-                  <div class="title">Three</div>
-                </div>
-                <div class="indicatorRow">
-                  <div class="indicatorText">Indication</div>
-                </div>
-              </div>
-      
-              <div class="bottomBar">
-                <div class="bottomBarLeft">Left</div>
-                <div class="bottomBarRight">
-                  <div class="profile">
-                    F
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="container">
-            <div class="textContent">
-              <div class="taskDelete">x</div>
-              <ul class="labels">
-                <li>Amendment</li>
-              </ul>
-              <div class="topBar">
-                <div class="titleRow">
-                  <div class="checkbox"></div>
-                  <div class="title">Three</div>
-                </div>
-                <div class="indicatorRow">
-                  <div class="indicatorText">Indication</div>
-                </div>
-              </div>
-      
-              <div class="bottomBar">
-                <div class="bottomBarLeft">Left</div>
-                <div class="bottomBarRight">
-                  <div class="profile">
-                    F
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-      
-          <div class="container">
-            <div class="textContent">
-              <ul class="labels">
-                <li>Amendment</li>
-                <li>Testing</li>
-                <li>Another</li>
-                <li>Folder</li>
-              </ul>
-              <div class="topBar">
-                <div class="titleRow">
-                  <div class="checkbox"></div>
-                  <div class="title">Four</div>
-                </div>
-                <div class="indicatorRow">
-                  <div class="indicatorText">Indication</div>
-                </div>
-              </div>
-      
-              <div class="bottomBar">
-                <div class="bottomBarLeft">Left</div>
-                <div class="bottomBarRight">
-                  <div class="profile">
-                    R
-                  </div>
-                </div>
-              </div>
-            </div>
+
+          <div class="right">
+            <div class="dueDate">Dec 4</div>
+            <i class="bi bi-eye"></i>
+            <i class="bi bi-pencil-square"></i>
+            <i class="bi bi-trash"></i>
           </div>
         </div>
-      
+
       </div>
+    </div>
+
+    <div class="container">
+      <div class="taskContainer">
+        <div class="topRow">
+          <ul class="labels">
+            <li>School</li>
+          </ul>
+        </div>
+
+        <div class="task medium">
+          <div class="left">
+            <div class="titleRow">
+              <input type="checkbox" class="checkbox"></input>
+              <div class="title">Complete TOP task list project</div>
+            </div>
+          </div>
+
+          <div class="right">
+            <div class="dueDate">Dec 12</div>
+            <i class="bi bi-eye"></i>
+            <i class="bi bi-pencil-square"></i>
+            <i class="bi bi-trash"></i>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="taskContainer">
+        <div class="topRow">
+          <ul class="labels complete">
+            <li>School</li>
+          </ul>
+        </div>
+
+        <div class="task complete low">
+          <div class="left">
+            <div class="titleRow">
+              <input type="checkbox" class="checkbox"></input>
+              <div class="title">Complete TOP task list project</div>
+            </div>
+          </div>
+
+          <div class="right">
+            <div class="dueDate">Dec 30</div>
+            <i class="bi bi-eye"></i>
+            <i class="bi bi-pencil-square"></i>
+            <i class="bi bi-trash"></i>
+          </div>
+        </div>
+
+        <div class="preview">
+          <div class="notes">hello</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
 </body>
 </html>
