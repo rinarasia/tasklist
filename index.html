@@ -8,44 +8,38 @@
 </head>
 <body>
     <div class="container">
-  
+
         <div class="header">
-          <div class="logo" id="logo"><img src="https://media.discordapp.net/attachments/1115776946777882686/1196516650732765224/taskrabbit.png" alt=""></img><h1>Task Rabbit</h1></div>
+          <div class="logo" id="logo"><img src="https://media.discordapp.net/attachments/1115776946777882686/1196516650732765224/taskrabbit.png" alt=""></img>
+            <h1>Task Rabbit</h1>
+          </div>
           <div class="menu">
-                <ul>
-                  <li>header link one</li>
-                  <li>header link two</li>
-                  <li>header link three</li>
-                  <li>Welcome, Name</li>
-                </ul>
-              </div>
+            <input type="text" id="search" onkeyup="searchTasks()" placeholder="Search tasks.." title="Type in a name">
+          </div>
         </div>
-        
+      
         <div class="content">
           <div class="sidebar" id="leftSidebar">
             <ul>
               <h3>Filter By Title</h3>
-                  <li>First List with a really long title</li>
-                  <li>Second List</li>
-                  <li>Third List</li>
-                </ul>
+              <li>First List with a really long title</li>
+              <li>Second List</li>
+              <li>Third List</li>
+            </ul>
             <ul>
               <h3>Filter By Label</h3>
-                  <li>School</li>
-                  <li>Work</li>
+              <li>School</li>
+              <li>Work</li>
               <li>Home</li>
-                  <li>Personal</li>
+              <li>Personal</li>
               <li>Other</li>
-                </ul>
+            </ul>
           </div>
           <div class="testMain">
-            <div id="pages-outer">
-              <div id="pages">
-                <h2 id="pageTitle" class="active">All Tasks</h2>
-                <h2 id="list1" class="list-title">bleh</h2>
-                <h2 id="list2" class="list-title">Somelist</h2>
-                <h2 id="list3" class="list-title">a third list?</h2>
-              </div>
+            <div class="tabContainer">
+              <ul id="tabs">
+                <li id="allTasks" class="tab active">All Tasks</li>
+              </ul>
             </div>
             <div class="main" id="main"></div>
           </div>
@@ -53,8 +47,7 @@
             <h3>Important Title</h3>
           </div>
         </div>
-        
-        
+      
       </div>
 </body>
 </html>
