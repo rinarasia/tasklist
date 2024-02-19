@@ -40,21 +40,48 @@ class Library {
     this.lists.push(list);
   }
   
-  printActiveTasks(list){
-    this.lists.forEach((list) => {
-      const index = this.lists.indexOf(list);
-      console.log(list);
-    });
-    this.printList(list);
-    
+  createListActive(list, listActiveContainer){
+      const listActiveHeader = createDOMElement("div", "listHeader");
+      const listActiveTitle = createDOMElement("div", "listTitle", list.title);
+      const listActiveDelete = createDOMElement("i", "listDelete");
+      listActiveDelete.classList.add("bi");
+      listActiveDelete.classList.add("bi-x-circle");      
+      
+      this.testDeleteList(list, listActiveDelete, listActiveHeader, listActiveContainer);
+      listActiveHeader.appendChild(listActiveTitle);
+      listActiveHeader.appendChild(listActiveDelete);
+
+      listActiveContainer.appendChild(listActiveHeader);
   }
   
-  printInactiveTasks(list){
+  createListInactive(list, listInactiveContainer){
+      const listInactiveHeader = createDOMElement("div", "taskCompletedHeader");
+      const listInactiveTitle = createDOMElement("div", "taskCompletedTitle", "Tasks Completed:");
+      const listInactiveDelete = createDOMElement("i", "listDelete");
+      listInactiveDelete.classList.add("bi");
+      listInactiveDelete.classList.add("bi-x-circle");
+    
+      this.testDeleteList(list, listInactiveDelete, listInactiveHeader, listInactiveContainer);  
+    
+      listInactiveHeader.appendChild(listInactiveTitle);
+      listInactiveHeader.appendChild(listInactiveDelete);
+      
+      listInactiveContainer.appendChild(listInactiveHeader);
+  }
+  
+  printListActiveAndInactive(list) {
     this.lists.forEach((list) => {
-      if(list.completed.length > 0){
-        console.log(list.title);
-      }
+      const listActiveContainer = createDOMElement("div", "listContainer");
+      this.createListActive(list, listActiveContainer);
+      
+      const listInactiveContainer = createDOMElement("div", "listContainer");
+      this.createListInactive(list, listInactiveContainer);
+      
+      list.printTasks(listActiveContainer, listInactiveContainer);
+      main.appendChild(listActiveContainer);
+      main.appendChild(listInactiveContainer);
     });
+
   }
   
   printList(list){
@@ -114,6 +141,22 @@ class Library {
       list.deleteAllTasks(listContainer, taskCompletedContainer);
       main.removeChild(listContainer);
       main.removeChild(taskCompletedContainer);
+    });
+  }
+  
+  testDeleteList(list, listDelete, listActiveDelete, listActiveContainer, listInactiveContainer) {
+    const index = this.lists.indexOf(list);
+    listDelete.addEventListener("click", () => {
+      const index = this.lists.indexOf(list);
+      const position = this.lists[index];
+      /*console.log(position.title);*/
+      this.lists.splice(index, 1);
+      
+      this.lists.slice(index, 1);
+      
+      list.deleteAllTasks(listActiveContainer, listInactiveContainer);
+      main.removeChild(listActiveContainer);
+      main.removeChild(listInactiveContainer);
     });
   }
   
@@ -401,6 +444,7 @@ class List {
       }
       
       if(this.tasks.length === 0 && this.completed.length === 0) {
+        alert("Are you sure?");
         this.deleteAllTasks(listContainer, taskCompletedContainer);
       }
     });
@@ -563,7 +607,7 @@ const task5 = new Task("This is really cool", "hehe some notes here", "Dec 1", "
 
 thirdList.addTask(task5);
 library.addList(thirdList);
-library.printList();
+library.printListActiveAndInactive();
 
 
 /*console.log(library.lists);*/
