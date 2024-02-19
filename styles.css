@@ -581,6 +581,7 @@ button {
   text-align: center;
   transform: rotate(90deg);
   transition: all 0.35s;
+  padding-bottom: 5px;
 }
 
 /* Core styles/functionality */
@@ -598,12 +599,14 @@ button {
 
 .list.inactive input:checked ~ .tasksInactiveContainer {
   max-height: 10rem;
+  
 }
 
 /* Visual styles */
 
 .list.inactive input:checked + .list-header::after {
-  transform: rotate(270deg);
+  transform: rotate(-90deg);
+  
 }
 
 /* TABLE HEADERS */
