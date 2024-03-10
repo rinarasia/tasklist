@@ -12,6 +12,5 @@ export class List {
     deleteTask(task) {
       const index = this.tasks.indexOf(task);
       this.tasks.splice(index, 1);
-      //console.log(this.tasks);
     }
   }

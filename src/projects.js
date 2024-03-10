@@ -8,6 +8,5 @@ export class Project {
       addListTab(list);
       //Assign each task their parent project's index & task index
       this.lists.forEach((list, index) => list.tasks.forEach(task => { task["listIndex"] = index }));
-      
     }
   }
