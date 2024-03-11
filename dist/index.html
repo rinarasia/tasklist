@@ -4,10 +4,80 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../src/styles.css">
     <title>Task Rabbit</title>
 </head>
 <body>
-    <h1>Task List</h1>
-    <script src="main.js"></script>
+    <div class="container">
+
+        <div class="header">
+          <div class="logo" id="logo"><img src="https://media.discordapp.net/attachments/1115776946777882686/1196516650732765224/taskrabbit.png" alt=""></img>
+            <h1>Task Rabbit</h1>
+          </div>
+          <div class="menu">
+            <input type="text" id="search" onkeyup="searchTasks()" placeholder="Search tasks.." title="Type in a name">
+          </div>
+        </div>
+      
+        <div class="content">
+          <div class="sidebar" id="leftSidebar">
+            <div class="card">
+              <fieldset>
+                <legend>Sort by Date</legend>
+                <input type="radio" id="sortDateAdded" name="action" value="Date Added" checked>
+                <label for="sortDefault"> Date Added </label><br>
+      
+                <input type="radio" id="sortAsc" name="action" value="Ascending">
+                <label for="sortAsc"> Ascending </label><br>
+      
+                <input type="radio" id="sortDesc" name="action" value="Descending">
+                <label for="sortDesc"> Descending </label><br>
+              </fieldset>
+              <fieldset>
+                <legend>Filter by Date</legend>
+                <input type="radio" id="filterToday" name="action" value="Due Today">
+                <label for="sortDefault"> Due Today </label><br>
+      
+                <input type="radio" id="filterThisWeek" name="action" value="Due This Week">
+                <label for="sortAsc"> Due This Week </label><br>
+      
+                <input type="radio" id="filterThisMonth" name="action" value="Due This Month">
+                <label for="sortDesc"> Due This Month </label><br>
+              </fieldset>
+            </div>
+            <div class="card">
+              <h3>Filter By Label</h3>
+              <ul id="sidebarLabels">
+              </ul>
+            </div>
+          </div>
+          <div class="testMain">
+            <div class="tabContainer" id="tabContainer">
+              <div id="left">❮</div>
+              <ul id="tabs" class="tabTest">
+                <li id="allTasksTab" class="tab active">All Tasks</li>
+              </ul>
+              <div id="right">❯</div>
+            </div>
+            <div class="main" id="main"></div>
+          </div>
+          <div class="sidebar" id="rightSidebar">
+            <div class="card">
+              <h3>Today</h3>
+              <div id="location"></div>
+              <div id="time"></div>
+              <div id="date"></div>
+            </div>
+            <div class="card">
+              <h3>Upcoming</h3>
+            </div>
+            <div class="card">
+              <h3>Notes</h3>
+              <textarea id="notes" name="" id="" cols="30" rows="20">some notes go here</textarea>
+            </div>
+          </div>
+        </div>
+      
+      </div>
 </body>
 </html>
